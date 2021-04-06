@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnbg.zs.ebook.api.mapper.PermissionMapper">
+    <select id="getPermissionByUserId" resultType="com.cnbg.zs.ebook.api.entity.Permission">
+        SELECT
+        t3.router_url
+        FROM
+        t_sys_user_role t1,
+        t_sys_role_permission t2,
+        t_sys_permission t3
+        WHERE
+        t1.role_id = t2.role_id
+        AND t2.permission_id = t3.id and
+      <![CDATA[
+      t3.parent_id <> 0
+       ]]>
+        and t1.user_id = #{userId}
+    </select>
+</mapper>
