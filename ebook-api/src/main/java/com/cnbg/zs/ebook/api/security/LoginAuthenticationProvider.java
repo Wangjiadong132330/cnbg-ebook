@@ -46,8 +46,9 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 		MyWebAuthenticationDetails details = (MyWebAuthenticationDetails) authentication.getDetails();
 		String userName = details.getUsername();
 		String rawPassword = details.getPassword();
-		String serverCode =  JRedisUtils.getKeyValue(details.getKey());
-
+//		String serverCode =  JRedisUtils.getKeyValue(details.getKey());
+		// TODO 临时程序开发
+		String serverCode =  "1234";
 		if(!StringUtils.equals(serverCode,details.getCode())){
 		throw new DisabledException("验证码输入错误");
 		}
