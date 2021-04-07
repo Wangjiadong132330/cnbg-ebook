@@ -3,10 +3,12 @@ package com.cnbg.zs.ebook.api.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.UserInfoDto;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.mapper.UserInfoMapper;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,8 +33,11 @@ public class IUserInfoServiceImpl implements IUserInfoService {
 	}
 
 	@Override
-	public UserInfo selectByPrimaryKey(Integer id) {
-		return userInfoMapper.selectById(id);
+	public UserInfoDto selectByPrimaryKey(Integer id) {
+		UserInfo userInfo = userInfoMapper.selectById(id);
+		UserInfoDto userInfoDto = new UserInfoDto();
+		BeanUtils.copyProperties(userInfo,userInfoDto);
+		return userInfoDto;
 	}
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)

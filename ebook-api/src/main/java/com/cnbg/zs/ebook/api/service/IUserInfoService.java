@@ -2,9 +2,8 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.UserInfoDto;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
-
-import java.util.List;
 
 /**
 * @author Faye.Wang
@@ -24,7 +23,7 @@ public interface IUserInfoService {
 	* @param id
 	* @return
 	*/
-	UserInfo selectByPrimaryKey(Integer id);
+	UserInfoDto selectByPrimaryKey(Integer id);
 
 	/**
 	* 根据主键删除数据

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 
 /**
 * @author Faye.Wang
@@ -40,6 +42,8 @@ public class UserInfoController extends BaseController {
 		BeanUtils.copyProperties(record,entity);
 		entity.setUsername(record.getUserAccount());
 		entity.setPassword(new BCryptPasswordEncoder().encode(record.getUserPass()));
+		entity.setStatus(1);
+		entity.setCreateTime(new Date());
 		iUserInfoService.insertEntity(entity);
 		return super.resultSuccess();
 	}
