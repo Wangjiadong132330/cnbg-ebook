@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.ey.gds.voc.core.handler.MyMetaObjectHandler;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +31,6 @@ public class MybatisPlusConfig {
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
         return configuration -> configuration.setUseDeprecatedExecutor(false);
-    }
-
-    @Bean
-    public MyMetaObjectHandler myMetaObjectHandler () {
-        return new MyMetaObjectHandler ();
     }
 
 }
