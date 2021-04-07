@@ -75,6 +75,17 @@ public static String generatorRollNum() {
     public static boolean isEmptyObj(Object obj){
         return obj==null || org.apache.commons.lang3.StringUtils.isBlank(obj.toString());
     }
+
+    /**
+     * 根据参数返回字符串值
+     * @param obj
+     * @return
+     */
+    public static String isEmptyValue(Object obj){
+        return isEmptyObj(obj)?null:obj.toString();
+    }
+
+
     public static String arrayToString(String[] str){
         return org.apache.commons.lang3.StringUtils.join(str,",");
     }

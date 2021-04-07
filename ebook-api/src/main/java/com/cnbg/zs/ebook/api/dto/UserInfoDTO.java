@@ -3,6 +3,7 @@ package com.cnbg.zs.ebook.api.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
@@ -12,7 +13,8 @@ import java.util.Date;
  * @date 2021/4/7 13:34
  * @Description
  */
-public class UserInfoDto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserInfoDTO {
 
     private Integer id;
     private String username;
@@ -24,6 +26,42 @@ public class UserInfoDto {
     private Integer status;
     private Date createTime;
     private String createUser;
+    private String companyName;
+    private String companyShortName;
+    private String departmentName;
+    private String departmentShortName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyShortName() {
+        return companyShortName;
+    }
+
+    public void setCompanyShortName(String companyShortName) {
+        this.companyShortName = companyShortName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getDepartmentShortName() {
+        return departmentShortName;
+    }
+
+    public void setDepartmentShortName(String departmentShortName) {
+        this.departmentShortName = departmentShortName;
+    }
 
     public Integer getId() {
         return id;

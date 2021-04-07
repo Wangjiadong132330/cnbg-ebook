@@ -2,7 +2,7 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cnbg.zs.ebook.api.dto.UserInfoDto;
+import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 
 /**
@@ -23,7 +23,7 @@ public interface IUserInfoService {
 	* @param id
 	* @return
 	*/
-	UserInfoDto selectByPrimaryKey(Integer id);
+	UserInfoDTO selectByPrimaryKey(Integer id);
 
 	/**
 	* 根据主键删除数据
@@ -37,7 +37,7 @@ public interface IUserInfoService {
 	* @param entity
 	* @return
 	*/
-	IPage<UserInfo> selectEntityList(Page<UserInfo> page,UserInfo entity);
+	IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page,UserInfo entity);
 
 	/**
 	* 修改记录

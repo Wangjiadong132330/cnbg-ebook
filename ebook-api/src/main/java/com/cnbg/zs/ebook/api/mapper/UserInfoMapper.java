@@ -1,7 +1,14 @@
 package com.cnbg.zs.ebook.api.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * @author Faye.Wang
@@ -10,4 +17,5 @@ import com.cnbg.zs.ebook.api.entity.UserInfo;
  * @Description
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
+    IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page, @Param(Constants.COLUMN_MAP) Map<String, Object> params);
 }

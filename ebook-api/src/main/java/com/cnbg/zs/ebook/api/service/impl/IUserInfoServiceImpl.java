@@ -3,7 +3,7 @@ package com.cnbg.zs.ebook.api.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cnbg.zs.ebook.api.dto.UserInfoDto;
+import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.mapper.UserInfoMapper;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
 * @author Faye.Wang
@@ -33,9 +36,9 @@ public class IUserInfoServiceImpl implements IUserInfoService {
 	}
 
 	@Override
-	public UserInfoDto selectByPrimaryKey(Integer id) {
+	public UserInfoDTO selectByPrimaryKey(Integer id) {
 		UserInfo userInfo = userInfoMapper.selectById(id);
-		UserInfoDto userInfoDto = new UserInfoDto();
+		UserInfoDTO userInfoDto = new UserInfoDTO();
 		BeanUtils.copyProperties(userInfo,userInfoDto);
 		return userInfoDto;
 	}
@@ -47,13 +50,12 @@ public class IUserInfoServiceImpl implements IUserInfoService {
 	}
 
 	@Override
-	public IPage<UserInfo> selectEntityList(Page<UserInfo> page,UserInfo record) {
-		QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-
-				wrapper.eq(!StringToolUtils.isEmptyObj(record.getCompanyId()),"company_id",record.getCompanyId());
-				wrapper.eq(!StringToolUtils.isEmptyObj(record.getDepartmentId()),"department_id",record.getDepartmentId());
-				wrapper.like(!StringToolUtils.isEmptyObj(record.getUserRealName()),"user_real_name",record.getUserRealName());
-		return userInfoMapper.selectPage(page,wrapper);
+	public IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page,UserInfo record) {
+		Map<String,Object> paramsMap = new HashMap<>();
+		paramsMap.put("companyId",StringToolUtils.isEmptyValue(record.getCompanyId()));
+		paramsMap.put("departmentId",StringToolUtils.isEmptyValue(record.getDepartmentId()));
+		paramsMap.put("userRealName",StringToolUtils.isEmptyValue(record.getUserRealName()));
+		return userInfoMapper.selectEntityList(page,paramsMap);
 	}
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)

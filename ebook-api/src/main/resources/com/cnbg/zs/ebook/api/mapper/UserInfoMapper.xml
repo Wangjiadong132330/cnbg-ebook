@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnbg.zs.ebook.api.mapper.UserInfoMapper">
+
+    <select id="selectEntityList" resultType="com.cnbg.zs.ebook.api.dto.UserInfoDTO">
+        SELECT
+            t1.id,
+                t1.user_real_name,
+                t2.company_name,
+                t2.company_short_name,
+                t1.create_time,
+                t3.department_name,
+                t3.department_short_name,
+                t1.status
+            FROM
+                t_user t1,
+                t_company t2,
+                t_department t3
+            WHERE
+                t1.company_id = t2.id
+                AND t1.department_id = t2.id
+                 <if test="cm.departmentId!=null">
+                    and t1.department_id = #{cm.departmentId}
+               </if>
+        <if test="cm.companyId!=null">
+            and t1.company_id = #{cm.companyId}
+        </if>
+        <if test="cm.userRealName!=null">
+            and t1.user_real_name  like concat('%',#{cm.userRealName},'%')
+        </if>
+    </select>
+</mapper>
