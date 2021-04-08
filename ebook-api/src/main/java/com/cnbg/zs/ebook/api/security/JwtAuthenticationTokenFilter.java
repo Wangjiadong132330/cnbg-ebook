@@ -5,6 +5,7 @@ import com.cnbg.zs.ebook.common.constant.Constants;
 import com.cnbg.zs.ebook.common.jwt.JWTUtils;
 import com.cnbg.zs.ebook.common.lang.JsonUtils;
 import com.cnbg.zs.ebook.common.redis.JRedisUtils;
+import com.cnbg.zs.ebook.core.wrapper.HeaderHttpServletRequestWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -35,13 +36,15 @@ public class JwtAuthenticationTokenFilter  extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(JWTUtils.AUTH_HEADER_KEY);
-
+        String sessionId = null;
+        HeaderHttpServletRequestWrapper requestWrapper = new HeaderHttpServletRequestWrapper(request);
         if(StringUtils.isNotBlank(token)){
                 if(JWTUtils.verify(token)==null){
                 throw new AccessDeniedException("TOKEN已过期，请重新登录！");
             }
-            String sessionId =  JWTUtils.getTokenObjectValue(token,JWTUtils.SESSION_ID_KEY);
+             sessionId =  JWTUtils.getTokenObjectValue(token,JWTUtils.SESSION_ID_KEY);
             UserInfo myUserDetails =  JsonUtils.toJsonBean(JRedisUtils.getKeyValue(Constants.USER_OAUTH_SESSION_ID+sessionId),UserInfo.class);
+            // TODO 修改成从 redis中获取 减少数据库查询
             UserDetails userDetails = myUserDetailsService.loadUserByUsername(myUserDetails.getUsername());
             if (userDetails != null) {
                 UsernamePasswordAuthenticationToken authentication =
@@ -50,7 +53,8 @@ public class JwtAuthenticationTokenFilter  extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            requestWrapper.setSessionId(sessionId);
         }
-            filterChain.doFilter(request, response);
+        filterChain.doFilter(requestWrapper, response);
     }
 }

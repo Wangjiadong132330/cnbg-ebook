@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.utils.SessionUtils;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.core.result.ResultData;
@@ -38,12 +39,14 @@ public class UserInfoController extends BaseController {
 	*/
 	@PostMapping("/insert")
 	public ResultData insertUserInfo(@RequestBody UserInfoVo record){
+
 		UserInfo entity = new UserInfo();
 		BeanUtils.copyProperties(record,entity);
 		entity.setUsername(record.getUserAccount());
 		entity.setPassword(new BCryptPasswordEncoder().encode(record.getUserPass()));
 		entity.setStatus(1);
 		entity.setCreateTime(new Date());
+		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
 		iUserInfoService.insertEntity(entity);
 		return super.resultSuccess();
 	}
@@ -89,7 +92,6 @@ public class UserInfoController extends BaseController {
 	public ResultData getPageQuery(@RequestBody UserInfoVo record){
 		UserInfo entity = new UserInfo();
 		BeanUtils.copyProperties(record,entity);
-
 		return super.resultSuccess(iUserInfoService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
 
