@@ -89,4 +89,26 @@ public class SysRoleController extends BaseController {
 		return super.resultSuccess(iSysRoleService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
 
+	/**
+	 * 获取菜单
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getMenuList")
+	public ResultData getMenuList(@RequestBody SysRoleVo record){
+
+		return super.resultSuccess(iSysRoleService.getMenuList());
+	}
+
+	/**
+	 * 获取节点树
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getNodeList")
+	public ResultData getNodeList(@RequestBody SysRoleVo record){
+
+		return super.resultSuccess(iSysRoleService.getNodeList());
+	}
+
 }

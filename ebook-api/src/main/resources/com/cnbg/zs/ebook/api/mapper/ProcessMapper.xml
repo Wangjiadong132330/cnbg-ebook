@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnbg.zs.ebook.api.mapper.ProcessMapper">
+
+    <select id="getNodeList" resultType="com.cnbg.zs.ebook.api.dto.NodeTreeDTO">
+       SELECT id,'0' as parent_id, process_name as nodeName FROM t_process
+UNION ALL
+SELECT t2.id,t1.id as parent_id,t2.node_name as nodeName  FROM t_process t1 ,t_node t2 WHERE t1.id = t2.process_id
+
+
+    </select>
 </mapper>

@@ -3,15 +3,17 @@ package com.cnbg.zs.ebook.api.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.NodeTreeDTO;
+import com.cnbg.zs.ebook.api.entity.Permission;
 import com.cnbg.zs.ebook.api.entity.SysRole;
 import com.cnbg.zs.ebook.api.entity.SysRolePermission;
 import com.cnbg.zs.ebook.api.entity.NodeRole;
-import com.cnbg.zs.ebook.api.mapper.SysRoleMapper;
-import com.cnbg.zs.ebook.api.mapper.SysRolePermissionMapper;
-import com.cnbg.zs.ebook.api.mapper.NodeRoleMapper;
+import com.cnbg.zs.ebook.api.mapper.*;
 import com.cnbg.zs.ebook.api.dto.SysRoleDTO;
 import com.cnbg.zs.ebook.api.dto.SysRoleMultiDTO;
 import com.cnbg.zs.ebook.api.service.ISysRoleService;
+import com.cnbg.zs.ebook.api.utils.TreeMenuUtil;
+import com.cnbg.zs.ebook.api.utils.TreeNodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,6 +38,11 @@ public class ISysRoleServiceImpl implements ISysRoleService {
 
 	@Autowired
 	private NodeRoleMapper nodeRoleMapper;
+	@Autowired
+	private PermissionMapper permissionMapper;
+
+	@Autowired
+	private ProcessMapper processMapper;
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
@@ -113,6 +120,20 @@ public class ISysRoleServiceImpl implements ISysRoleService {
 	public IPage<SysRoleMultiDTO> selectEntityList(Page<SysRoleMultiDTO> page,SysRoleMultiDTO record) {
 		Map<String,Object> params = new HashMap<>();
 		return sysRoleMapper.selectEntityList(page,params);
+	}
+
+	@Override
+	public List<Object> getMenuList() {
+		List<Permission> list = permissionMapper.selectList(null);
+		TreeMenuUtil treeMenuUtil = new TreeMenuUtil();
+		return treeMenuUtil.treeMenu(list);
+	}
+
+	@Override
+	public List<Object> getNodeList() {
+		List<NodeTreeDTO> list = processMapper.getNodeList();
+		TreeNodeUtil treeNodeUtil = new TreeNodeUtil();
+		return treeNodeUtil.treeMenu(list);
 	}
 
 

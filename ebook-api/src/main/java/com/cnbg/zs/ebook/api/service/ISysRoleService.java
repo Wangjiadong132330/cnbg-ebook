@@ -52,5 +52,7 @@ public interface ISysRoleService {
 	IPage<SysRoleMultiDTO> selectEntityList(Page<SysRoleMultiDTO> page,SysRoleMultiDTO entity);
 
 
+	List<Object> getMenuList();
 
+	List<Object> getNodeList();
 }
