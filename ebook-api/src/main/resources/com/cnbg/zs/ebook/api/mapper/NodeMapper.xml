@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnbg.zs.ebook.api.mapper.NodeMapper">
+    <select id="selectEntityList" resultType="com.cnbg.zs.ebook.api.dto.NodeDTO">
+        SELECT
+            t1.*,
+            t2.process_name
+        FROM
+            t_node t1,
+            t_process t2
+        where
+            t1.process_id = t2.id
+        <if test="cm.nodeName!=null">
+            and t1.node_name like concat('%',#{cm.nodeName},'%')
+        </if>
+        <if test="cm.keyWord!=null">
+            and t1.key_word like concat('%',#{cm.keyWord},'%')
+        </if>
+        <if test="cm.processId!=null">
+            and t1.process_id = #{cm.processId}
+        </if>
+        <if test="cm.id!=null">
+            and t1.id = #{cm.id}
+        </if>
+        order by t1.id asc
+    </select>
+</mapper>
