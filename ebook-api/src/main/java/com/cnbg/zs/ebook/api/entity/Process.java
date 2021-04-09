@@ -1,8 +1,11 @@
 package com.cnbg.zs.ebook.api.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -13,7 +16,7 @@ import java.util.*;
 * @date 2021/1/6 14:54
 * @Description
 */
-@TableName(value = "t_process")
+@TableName(value = "t_process", autoResultMap = true)
 public class Process implements Serializable{
 
 	/**
@@ -35,7 +38,7 @@ public class Process implements Serializable{
 	/**
 	* 字段：processJson ：流程图json数据
 	*/
-	private Date processJson;
+	private String processJson;
 
 	/**
 	* 字段：createTime ：创建时间
@@ -56,7 +59,6 @@ public class Process implements Serializable{
 	* 字段：updateUser ：更新者
 	*/
 	private String updateUser;
-
 
 	public Integer getId() {
 		return id;
@@ -79,11 +81,11 @@ public class Process implements Serializable{
 	public void setProcessChart(String processChart) {
 		this.processChart = processChart;
 	}
-	public Date getProcessJson() {
+	public String getProcessJson() {
 		return processJson;
 	}
 
-	public void setProcessJson(Date processJson) {
+	public void setProcessJson(String processJson) {
 		this.processJson = processJson;
 	}
 	public Date getCreateTime() {

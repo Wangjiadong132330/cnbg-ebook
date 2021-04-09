@@ -3,6 +3,7 @@ package com.cnbg.zs.ebook.api.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.entity.Process;
+import com.cnbg.zs.ebook.core.result.ResultData;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface IProcessService {
 	* 保存数据
 	* @param entity
 	*/
-	void insertEntity(Process entity);
+	ResultData insertEntity(Process entity);
 
 	/**
 	* 获取单条数据
@@ -44,7 +45,7 @@ public interface IProcessService {
 	* 修改记录
 	* @param entity
 	*/
-	void updateEntity(Process entity);
+	ResultData updateEntity(Process entity);
 
 
 }

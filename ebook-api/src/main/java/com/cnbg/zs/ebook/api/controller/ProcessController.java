@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.utils.SessionUtils;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.api.entity.Process;
 import com.cnbg.zs.ebook.core.result.ResultData;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 
 /**
@@ -37,8 +40,11 @@ public class ProcessController extends BaseController {
 	public ResultData insertProcess(@RequestBody ProcessVo record){
 		Process entity = new Process();
 		BeanUtils.copyProperties(record,entity);
-		iProcessService.insertEntity(entity);
-		return super.resultSuccess();
+		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+		entity.setCreateTime(new Date());
+		entity.setUpdateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+		entity.setUpdateTime(new Date());
+		return iProcessService.insertEntity(entity);
 	}
 	/**
 	* 修改数据
@@ -49,8 +55,9 @@ public class ProcessController extends BaseController {
 	public ResultData updateDemo(@RequestBody ProcessVo record){
 		Process entity = new Process();
 		BeanUtils.copyProperties(record,entity);
-		iProcessService.updateEntity(entity);
-		return super.resultSuccess();
+		entity.setUpdateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+		entity.setUpdateTime(new Date());
+		return iProcessService.updateEntity(entity);
 	}
 	/**
 	* 查询数据

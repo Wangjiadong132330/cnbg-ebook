@@ -28,7 +28,7 @@ public class ProcessVo extends RequestVo {
 	* 字段：processJson ：流程图json数据
 	*/
 
-	private Date processJson;
+	private String processJson;
 	/**
 	* 字段：createTime ：创建时间
 	*/
@@ -71,11 +71,11 @@ public class ProcessVo extends RequestVo {
 	public void setProcessChart(String processChart) {
 		this.processChart = processChart;
 	}
-	public Date getProcessJson() {
+	public String getProcessJson() {
 		return processJson;
 	}
 
-	public void setProcessJson(Date processJson) {
+	public void setProcessJson(String processJson) {
 		this.processJson = processJson;
 	}
 	public Date getCreateTime() {

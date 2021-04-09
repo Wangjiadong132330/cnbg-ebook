@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.NodeDTO;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
@@ -10,12 +11,15 @@ import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.mapper.NodeMapper;
 import com.cnbg.zs.ebook.api.service.INodeService;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
+import com.cnbg.zs.ebook.core.result.ResultData;
+import com.cnbg.zs.ebook.core.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +36,39 @@ public class INodeServiceImpl implements INodeService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void insertEntity(Node record) {
-		nodeMapper.insert(record);
+	public ResultData insertEntity(Node record) {
+
+		ResultData resultData = new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
+
+		// 检查节点是否重复
+		boolean nodeNameRepeatFlag = checkNodeNameRepeat(record);
+
+		if (nodeNameRepeatFlag) {
+
+			// 节点名重复
+			resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_501.getCode(),ResultEnum.MSG_CODE_ERROR_501.getMessage());
+
+		} else {
+			nodeMapper.insert(record);
+		}
+
+		return resultData;
+	}
+
+	/**
+	 * 检查节点是否重复
+	 *
+	 * @param record
+	 * @return
+	 */
+	private boolean checkNodeNameRepeat(Node record) {
+
+		List<Node> nodeList = nodeMapper.selectList(
+				Wrappers.<Node>lambdaQuery()
+						.eq(Node::getProcessId, record.getProcessId())
+						.eq(Node::getNodeName, record.getNodeName()));
+
+		return nodeList.size() > 0;
 	}
 
 	@Override
@@ -67,7 +102,23 @@ public class INodeServiceImpl implements INodeService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void updateEntity(Node record) {
+	public ResultData updateEntity(Node record) {
+
+		ResultData resultData = new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
+
+		Node updateNode = nodeMapper.selectById(record.getId());
+
+		if (!updateNode.getNodeName().equals(record.getNodeName())) {
+			// 检查节点是否重复
+			boolean nodeNameRepeatFlag = checkNodeNameRepeat(record);
+			if (nodeNameRepeatFlag) {
+				// 节点名重复
+				resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_501.getCode(),ResultEnum.MSG_CODE_ERROR_501.getMessage());
+			}
+		}
+
 		nodeMapper.updateById(record);
+
+		return resultData;
 	}
 }
