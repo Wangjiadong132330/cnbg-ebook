@@ -44,8 +44,7 @@ public class NodeController extends BaseController {
 		entity.setCreateTime(new Date());
 		entity.setUpdateUser(SessionUtils.getSessionUserName(record.getSessionId()));
 		entity.setUpdateTime(new Date());
-		iNodeService.insertEntity(entity);
-		return super.resultSuccess();
+		return iNodeService.insertEntity(entity);
 	}
 	/**
 	* 修改数据
@@ -58,8 +57,7 @@ public class NodeController extends BaseController {
 		BeanUtils.copyProperties(record,entity);
 		entity.setUpdateUser(SessionUtils.getSessionUserName(record.getSessionId()));
 		entity.setUpdateTime(new Date());
-		iNodeService.updateEntity(entity);
-		return super.resultSuccess();
+		return iNodeService.updateEntity(entity);
 	}
 	/**
 	* 查询数据

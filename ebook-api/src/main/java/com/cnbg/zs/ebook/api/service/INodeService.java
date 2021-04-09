@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.NodeDTO;
 import com.cnbg.zs.ebook.api.entity.Node;
+import com.cnbg.zs.ebook.core.result.ResultData;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface INodeService {
 	* 保存数据
 	* @param entity
 	*/
-	void insertEntity(Node entity);
+	ResultData insertEntity(Node entity);
 
 	/**
 	* 获取单条数据
@@ -45,7 +46,7 @@ public interface INodeService {
 	* 修改记录
 	* @param entity
 	*/
-	void updateEntity(Node entity);
+	ResultData updateEntity(Node entity);
 
 
 }
