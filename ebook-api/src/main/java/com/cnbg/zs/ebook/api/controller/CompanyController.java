@@ -2,6 +2,8 @@ package com.cnbg.zs.ebook.api.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.service.IDepartmentService;
+import com.cnbg.zs.ebook.api.utils.SessionUtils;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.api.entity.Company;
 import com.cnbg.zs.ebook.core.result.ResultData;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 
 /**
@@ -27,6 +31,8 @@ public class CompanyController extends BaseController {
 
 	@Autowired
 	private ICompanyService iCompanyService;
+	@Autowired
+	private IDepartmentService iDepartmentService;
 
 	/**
 	* 保存数据
@@ -36,9 +42,18 @@ public class CompanyController extends BaseController {
 	@PostMapping("/insert")
 	public ResultData insertCompany(@RequestBody CompanyVo record){
 		Company entity = new Company();
-		BeanUtils.copyProperties(record,entity);
-		iCompanyService.insertEntity(entity);
-		return super.resultSuccess();
+		if(iCompanyService.selectByName(record.getCompanyName())!=null){
+			return super.resultSuccess("企业名称已存在",null);
+		}else{
+			BeanUtils.copyProperties(record,entity);
+			entity.setCreateTime(new Date());
+			entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+			iCompanyService.insertEntity(entity);
+
+			return super.resultSuccess();
+		}
+
+
 	}
 	/**
 	* 修改数据
@@ -49,6 +64,8 @@ public class CompanyController extends BaseController {
 	public ResultData updateDemo(@RequestBody CompanyVo record){
 		Company entity = new Company();
 		BeanUtils.copyProperties(record,entity);
+		entity.setCreateTime(new Date());
+		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
 		iCompanyService.updateEntity(entity);
 		return super.resultSuccess();
 	}
@@ -84,6 +101,18 @@ public class CompanyController extends BaseController {
 		BeanUtils.copyProperties(record,entity);
 
 		return super.resultSuccess(iCompanyService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
+	}
+
+	/**
+	 * 查询公司下拉
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getDropDownQuery")
+	public ResultData getDropDownQuery(@RequestBody CompanyVo record){
+
+
+		return super.resultSuccess(iCompanyService.getDropDownQuery());
 	}
 
 }

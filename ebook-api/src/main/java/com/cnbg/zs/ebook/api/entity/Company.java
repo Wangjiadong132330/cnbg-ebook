@@ -3,6 +3,8 @@ package com.cnbg.zs.ebook.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -14,6 +16,7 @@ import java.util.*;
 * @Description
 */
 @TableName(value = "t_company")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Company implements Serializable{
 
 	/**

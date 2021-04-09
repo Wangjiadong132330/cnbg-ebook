@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.CompanyDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
 
 import java.util.List;
@@ -35,10 +36,12 @@ public interface ICompanyService {
 
 	/**
 	* 单表查询所有
-	* @param entity
-	* @return
+	*
+	 * @param page
+	 * @param entity
+	 * @return
 	*/
-	IPage<Company> selectEntityList(Page<Company> page,Company entity);
+	IPage<CompanyDTO> selectEntityList(Page<CompanyDTO> page, Company entity);
 
 	/**
 	* 修改记录
@@ -46,5 +49,17 @@ public interface ICompanyService {
 	*/
 	void updateEntity(Company entity);
 
+	/**
+	 * 查询公司下拉
+	 * @return
+	 */
+	List<Company> getDropDownQuery();
+
+	/**
+	 * 查询公司
+	 * @param Name
+	 * @return
+	 */
+	Company selectByName(String name);
 
 }

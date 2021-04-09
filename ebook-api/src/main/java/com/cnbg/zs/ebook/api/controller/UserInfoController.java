@@ -10,6 +10,7 @@ import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,9 @@ public class UserInfoController extends BaseController {
 	@Autowired
 	private IUserInfoService iUserInfoService;
 
+	@Value("${sys.init.pass}")
+	private String initPass;
+
 	/**
 	* 保存数据
 	* @param record
@@ -43,7 +47,7 @@ public class UserInfoController extends BaseController {
 		UserInfo entity = new UserInfo();
 		BeanUtils.copyProperties(record,entity);
 		entity.setUsername(record.getUserAccount());
-		entity.setPassword(new BCryptPasswordEncoder().encode(record.getUserPass()));
+		entity.setPassword(new BCryptPasswordEncoder().encode(initPass));
 		entity.setStatus(1);
 		entity.setCreateTime(new Date());
 		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));

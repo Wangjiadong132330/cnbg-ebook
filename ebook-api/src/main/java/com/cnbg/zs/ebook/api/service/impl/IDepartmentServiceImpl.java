@@ -3,6 +3,7 @@ package com.cnbg.zs.ebook.api.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.DepartmentDTO;
 import com.cnbg.zs.ebook.api.entity.Department;
 import com.cnbg.zs.ebook.api.mapper.DepartmentMapper;
 import com.cnbg.zs.ebook.api.service.IDepartmentService;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author Faye.Wang
@@ -42,18 +47,23 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 	}
 
 	@Override
-	public IPage<Department> selectEntityList(Page<Department> page,Department record) {
-		QueryWrapper<Department> wrapper = new QueryWrapper<>();
+	public IPage<DepartmentDTO> selectEntityList(Page<DepartmentDTO> page, Department record) {
 
-				wrapper.like(!StringToolUtils.isEmptyObj(record.getDepartmentName()),"department_short_name",record.getDepartmentName())
-						.or().like(!StringToolUtils.isEmptyObj(record.getDepartmentName()),"department_name",record.getDepartmentName());
-
-		return departmentMapper.selectPage(page,wrapper);
+		Map<String,Object> cmMap = new HashMap<>();
+		cmMap.put("companyName",StringToolUtils.isEmptyValue(record.getDepartmentName()));
+		return departmentMapper.selectEntityList(page,cmMap);
 	}
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void updateEntity(Department record) {
 		departmentMapper.updateById(record);
+	}
+
+	@Override
+	public List<Department> getDepartmentByCompanyId(Integer id) {
+		QueryWrapper<Department> wrapper = new QueryWrapper<>();
+		wrapper.eq("company_id",id);
+		return departmentMapper.selectList(wrapper);
 	}
 }

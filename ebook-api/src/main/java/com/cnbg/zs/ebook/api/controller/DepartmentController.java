@@ -86,4 +86,15 @@ public class DepartmentController extends BaseController {
 		return super.resultSuccess(iDepartmentService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
 
+	/**
+	 * 跟姐企业ID查询部门信息
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getQueryDepartment")
+	public ResultData getQueryDepartment(@RequestBody DepartmentVo record){
+		return super.resultSuccess(iDepartmentService.getDepartmentByCompanyId(record.getCompanyId()));
+	}
+
+
 }
