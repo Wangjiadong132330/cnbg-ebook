@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.RoleUserDTO;
 import com.cnbg.zs.ebook.api.entity.Permission;
 import com.cnbg.zs.ebook.api.entity.RoleUser;
 
@@ -28,5 +29,30 @@ public interface IRoleUserService {
 	 */
 	List<Permission> getPermissionForUser(Integer userId);
 
+
+	/**
+	 * 保存数据
+	 * @param
+	 */
+	void insertEntity(RoleUser roleUser);
+
+	/**
+	 * 根据主键删除数据
+	 * @param id
+	 * @return
+	 */
+	void deletePrimaryKey(Integer id);
+
+	/**
+	 * 修改记录
+	 * @param
+	 */
+	void updateEntity(RoleUser roleUser);
+
+
+	RoleUser selectByPrimaryKey(Integer id);
+
+
+	IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> objectPage);
 
 }

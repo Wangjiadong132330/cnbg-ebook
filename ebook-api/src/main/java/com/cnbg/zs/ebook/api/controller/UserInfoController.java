@@ -43,16 +43,19 @@ public class UserInfoController extends BaseController {
 	*/
 	@PostMapping("/insert")
 	public ResultData insertUserInfo(@RequestBody UserInfoVo record){
-
-		UserInfo entity = new UserInfo();
-		BeanUtils.copyProperties(record,entity);
-		entity.setUsername(record.getUserAccount());
-		entity.setPassword(new BCryptPasswordEncoder().encode(initPass));
-		entity.setStatus(1);
-		entity.setCreateTime(new Date());
-		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
-		iUserInfoService.insertEntity(entity);
-		return super.resultSuccess();
+		if(iUserInfoService.loadUserInfoByName(record.getUserAccount())!=null){
+			return super.resultSuccess("用户名以存在，请更换",null);
+		}else{
+			UserInfo entity = new UserInfo();
+			BeanUtils.copyProperties(record,entity);
+			entity.setUsername(record.getUserAccount());
+			entity.setPassword(new BCryptPasswordEncoder().encode(initPass));
+			entity.setStatus(1);
+			entity.setCreateTime(new Date());
+			entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+			iUserInfoService.insertEntity(entity);
+			return super.resultSuccess();
+		}
 	}
 	/**
 	* 修改数据
