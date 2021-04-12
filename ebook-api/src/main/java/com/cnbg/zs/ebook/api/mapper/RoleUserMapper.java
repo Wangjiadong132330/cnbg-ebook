@@ -1,6 +1,9 @@
 package com.cnbg.zs.ebook.api.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.RoleUserDTO;
 import com.cnbg.zs.ebook.api.entity.RoleUser;
 
 /**
@@ -10,5 +13,7 @@ import com.cnbg.zs.ebook.api.entity.RoleUser;
  * @Description
  */
 public interface RoleUserMapper extends BaseMapper<RoleUser> {
+
+    IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> page);
 
 }

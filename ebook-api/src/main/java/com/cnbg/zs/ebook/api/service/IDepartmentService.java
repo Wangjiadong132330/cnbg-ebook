@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.DepartmentDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
 import com.cnbg.zs.ebook.api.entity.Department;
 
@@ -39,7 +40,7 @@ public interface IDepartmentService {
 	* @param entity
 	* @return
 	*/
-	IPage<Department> selectEntityList(Page<Department> page,Department entity);
+	IPage<DepartmentDTO> selectEntityList(Page<DepartmentDTO> page, Department entity);
 
 	/**
 	* 修改记录
@@ -53,5 +54,12 @@ public interface IDepartmentService {
 	 * @return
 	 */
 	List<Department> selectEntityList(Department entity);
+	/**
+	 * 根据企业查询当前企业下的部门
+	 * @param id
+	 * @return
+	 */
+	List<Department> getDepartmentByCompanyId(Integer id);
+
 
 }

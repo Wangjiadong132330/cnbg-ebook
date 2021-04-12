@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnbg.zs.ebook.api.mapper.RoleUserMapper">
+      <select id="selectEntityList" resultType="com.cnbg.zs.ebook.api.dto.RoleUserDTO">
+               SELECT
+	t1.user_real_name,t2.id,t3.role_name
+FROM
+	t_user t1,
+	t_sys_user_role t2,
+	t_sys_role t3
+WHERE
+	t1.id = t2.user_id
+	AND t2.role_id = t3.id
+        </select>
+</mapper>

@@ -5,20 +5,23 @@
     <select id="selectEntityList" resultType="com.cnbg.zs.ebook.api.dto.UserInfoDTO">
         SELECT
             t1.id,
+                t1.user_account as username,
                 t1.user_real_name,
                 t2.company_name,
                 t2.company_short_name,
                 t1.create_time,
                 t3.department_name,
                 t3.department_short_name,
-                t1.status
+                t1.status,
+                t1.gender,
+                t1.phone
             FROM
                 t_user t1,
                 t_company t2,
                 t_department t3
             WHERE
                 t1.company_id = t2.id
-                AND t1.department_id = t2.id
+                AND t1.department_id = t3.id
                  <if test="cm.departmentId!=null">
                     and t1.department_id = #{cm.departmentId}
                </if>

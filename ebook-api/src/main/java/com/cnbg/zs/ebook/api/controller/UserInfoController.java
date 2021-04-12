@@ -16,6 +16,7 @@ import com.cnbg.zs.ebook.api.vo.UserInfoVo;
 import org.apache.poi.sl.usermodel.Sheet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +43,9 @@ public class UserInfoController extends BaseController {
 	@Autowired
 	private IUserInfoService iUserInfoService;
 
+	@Value("${sys.init.pass}")
+	private String initPass;
+
 	/**
 	* 保存数据
 	* @param record
@@ -49,16 +53,19 @@ public class UserInfoController extends BaseController {
 	*/
 	@PostMapping("/insert")
 	public ResultData insertUserInfo(@RequestBody UserInfoVo record){
-
-		UserInfo entity = new UserInfo();
-		BeanUtils.copyProperties(record,entity);
-		entity.setUsername(record.getUserAccount());
-		entity.setPassword(new BCryptPasswordEncoder().encode(record.getUserPass()));
-		entity.setStatus(1);
-		entity.setCreateTime(new Date());
-		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
-		iUserInfoService.insertEntity(entity);
-		return super.resultSuccess();
+		if(iUserInfoService.loadUserInfoByName(record.getUserAccount())!=null){
+			return super.resultSuccess("用户名以存在，请更换",null);
+		}else{
+			UserInfo entity = new UserInfo();
+			BeanUtils.copyProperties(record,entity);
+			entity.setUsername(record.getUserAccount());
+			entity.setPassword(new BCryptPasswordEncoder().encode(initPass));
+			entity.setStatus(1);
+			entity.setCreateTime(new Date());
+			entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+			iUserInfoService.insertEntity(entity);
+			return super.resultSuccess();
+		}
 	}
 	/**
 	* 修改数据
