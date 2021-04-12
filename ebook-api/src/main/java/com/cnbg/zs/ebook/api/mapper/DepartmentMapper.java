@@ -10,8 +10,6 @@ import com.cnbg.zs.ebook.api.entity.Department;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 /**
 * @author OFG
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Repository;
 * @date 2021/1/6 20:09
 * @Description
 */
-@Repository
-@Mapper
 public interface DepartmentMapper extends BaseMapper<Department> {
 
     IPage<DepartmentDTO> selectEntityList(Page<DepartmentDTO> page, @Param(Constants.COLUMN_MAP) Map<String, Object> params);

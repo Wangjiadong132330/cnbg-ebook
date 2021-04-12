@@ -7,11 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.CompanyDTO;
 
 import com.cnbg.zs.ebook.api.entity.Company;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 import java.util.Map;
 
 /**
