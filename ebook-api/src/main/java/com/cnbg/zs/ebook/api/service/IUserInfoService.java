@@ -2,8 +2,12 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.ExcelUserInfoDTO;
+import com.cnbg.zs.ebook.api.dto.ImportResultDTO;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
+
+import java.util.List;
 
 /**
 * @author Faye.Wang
@@ -50,5 +54,15 @@ public interface IUserInfoService {
 	 * @return
 	 */
 	UserInfo loadUserInfoByName(String userName);
+
+
+	/**
+	 * 导入用户信息
+	 *
+	 * @param userInfoDtoList
+	 * @param userName
+	 * @return
+	 */
+	ImportResultDTO importUser(List<ExcelUserInfoDTO> userInfoDtoList, String userName);
 
 }

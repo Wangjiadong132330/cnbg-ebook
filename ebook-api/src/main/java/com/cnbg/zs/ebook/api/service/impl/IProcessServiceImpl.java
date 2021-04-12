@@ -66,8 +66,8 @@ public class IProcessServiceImpl implements IProcessService {
 	@Override
 	public IPage<Process> selectEntityList(Page<Process> page,Process record) {
 		QueryWrapper<Process> wrapper = new QueryWrapper<>();
-
-				wrapper.like(!StringToolUtils.isEmptyObj(record.getProcessName()),"process_name",record.getProcessName());
+		wrapper.like(!StringToolUtils.isEmptyObj(record.getProcessName()),"process_name",record.getProcessName());
+		wrapper.orderByAsc("id");
 		return processMapper.selectPage(page,wrapper);
 	}
 

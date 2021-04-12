@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * @author Faye.Wang
 * @version 1.0
@@ -53,5 +55,13 @@ public class ICompanyServiceImpl implements ICompanyService {
 	@Override
 	public void updateEntity(Company record) {
 		companyMapper.updateById(record);
+	}
+
+	@Override
+	public List<Company> selectEntityList(Company record) {
+
+		QueryWrapper<Company> wrapper = new QueryWrapper<>();
+		wrapper.like(!StringToolUtils.isEmptyObj(record.getCompanyName()),"company_name",record.getCompanyName());
+		return companyMapper.selectList(wrapper);
 	}
 }

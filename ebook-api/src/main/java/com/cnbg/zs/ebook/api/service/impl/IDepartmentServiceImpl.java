@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * @author Faye.Wang
 * @version 1.0
@@ -55,5 +57,13 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 	@Override
 	public void updateEntity(Department record) {
 		departmentMapper.updateById(record);
+	}
+
+	@Override
+	public List<Department> selectEntityList(Department record) {
+		QueryWrapper<Department> wrapper = new QueryWrapper<>();
+		wrapper.like(!StringToolUtils.isEmptyObj(record.getDepartmentName()),"department_short_name",record.getDepartmentName())
+				.or().like(!StringToolUtils.isEmptyObj(record.getDepartmentName()),"department_name",record.getDepartmentName());
+		return departmentMapper.selectList(wrapper);
 	}
 }

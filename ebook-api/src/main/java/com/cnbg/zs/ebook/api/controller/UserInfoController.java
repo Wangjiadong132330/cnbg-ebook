@@ -1,22 +1,32 @@
 package com.cnbg.zs.ebook.api.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.dto.ExcelUserInfoDTO;
 import com.cnbg.zs.ebook.api.utils.SessionUtils;
+import com.cnbg.zs.ebook.common.excel.ExcelUtils;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
+import com.cnbg.zs.ebook.core.result.RequestVo;
 import com.cnbg.zs.ebook.core.result.ResultData;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
+import org.apache.poi.sl.usermodel.Sheet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -84,6 +94,19 @@ public class UserInfoController extends BaseController {
 	}
 
 	/**
+	 * 导入用户
+	 * @param file
+	 * @param requestVo
+	 * @return
+	 */
+	@PostMapping("/importUser")
+	public ResultData importUser(@RequestParam(value="file") MultipartFile file, @RequestBody RequestVo requestVo) {
+
+		List<ExcelUserInfoDTO> userInfoList = ExcelUtils.readExcel(file, ExcelUserInfoDTO.class, 0, 1);
+
+		return super.resultSuccess(iUserInfoService.importUser(userInfoList, SessionUtils.getSessionUserName(requestVo.getSessionId())));
+	}
+	/**
 	* 分页查询数据
 	* @param record
 	* @return
@@ -94,5 +117,34 @@ public class UserInfoController extends BaseController {
 		BeanUtils.copyProperties(record,entity);
 		return super.resultSuccess(iUserInfoService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
+
+	@GetMapping(value = "/exportUser")
+	public void exportUser(HttpServletResponse response) {
+
+		List<ExcelUserInfoDTO> userInfoDtoList = new ArrayList<>();
+		ExcelUserInfoDTO e;
+
+		for (int i = 0; i < 10; i++) {
+			e = new ExcelUserInfoDTO();
+			// 会员号
+			e.setUserAccount("userAccount" + i);
+			// 姓名
+			e.setUserRealName("userRealName" + i);
+			// 公司Id
+			e.setCompanyName("companyName" + i);
+			// 公司Id
+			e.setDepartmentName("departmentName" + i);
+			// 手机号
+			e.setPhone("Phone" + i);
+			// 性别
+			e.setGender("gender" + i);
+
+			userInfoDtoList.add(e);
+		}
+
+		ExcelUtils.writeExcel(response, userInfoDtoList, "exportUser", "用户列表", ExcelUserInfoDTO.class);
+	}
+
+
 
 }

@@ -32,4 +32,7 @@ public class Constants {
     public static final String STRING_ZERO = "0";
     public static final String STRING_ONE = "1";
     public static final String STRING_TWO = "2";
+
+    // 导入用户默认密码
+    public static final String DEFAULT_PASSWORD = "123456";
 }

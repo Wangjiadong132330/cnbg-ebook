@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.entity.Company;
 import com.cnbg.zs.ebook.api.entity.Department;
 
 import java.util.List;
@@ -46,5 +47,11 @@ public interface IDepartmentService {
 	*/
 	void updateEntity(Department entity);
 
+	/**
+	 * 单表查询所有List
+	 * @param entity
+	 * @return
+	 */
+	List<Department> selectEntityList(Department entity);
 
 }

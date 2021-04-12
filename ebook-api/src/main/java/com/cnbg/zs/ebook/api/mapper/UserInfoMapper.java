@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
@@ -16,6 +18,8 @@ import java.util.Map;
  * @date 2021/3/24 22:50
  * @Description
  */
+@Repository
+@Mapper
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
     IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page, @Param(Constants.COLUMN_MAP) Map<String, Object> params);
 }

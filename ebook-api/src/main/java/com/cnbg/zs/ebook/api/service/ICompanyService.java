@@ -46,5 +46,11 @@ public interface ICompanyService {
 	*/
 	void updateEntity(Company entity);
 
+	/**
+	 * 单表查询所有List
+	 * @param entity
+	 * @return
+	 */
+	List<Company> selectEntityList(Company entity);
 
 }

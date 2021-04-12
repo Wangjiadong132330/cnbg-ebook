@@ -59,7 +59,7 @@ public class LogAspect {
         String params = null;
         String reqURI = request.getRequestURI();
 
-        String[] igUrl ={"api/login","captcha","logOut","import"};
+        String[] igUrl ={"api/login","captcha","logOut","importUser","exportUser"};
 
         List urlList =  Arrays.asList(igUrl).stream().filter(item->reqURI.contains(item)).collect(Collectors.toList());
         if(urlList.isEmpty()){
