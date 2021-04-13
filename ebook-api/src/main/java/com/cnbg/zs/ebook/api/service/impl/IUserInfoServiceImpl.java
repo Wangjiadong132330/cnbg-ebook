@@ -177,4 +177,14 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 		return importResult;
 	}
 
+	@Override
+	public UserInfoDTO getUserInfoById(Integer userId) {
+		return userInfoMapper.getUserInfoById(userId);
+	}
+
+	@Override
+	public void updateUserProfile(UserInfo userInfo) {
+		userInfoMapper.updateById(userInfo);
+	}
+
 }

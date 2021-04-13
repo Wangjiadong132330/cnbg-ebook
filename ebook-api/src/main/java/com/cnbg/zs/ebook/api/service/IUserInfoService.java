@@ -65,4 +65,19 @@ public interface IUserInfoService {
 	 */
 	ImportResultDTO importUser(List<ExcelUserInfoDTO> userInfoDtoList, String userName);
 
+	/**
+	 * 查询用户个人信息
+	 * @param userId
+	 * @return
+	 */
+	UserInfoDTO getUserInfoById(Integer userId);
+
+	/**
+	 * 根据用户ID 修改用户信息
+	 * @param userInfo
+	 */
+	void updateUserProfile(UserInfo userInfo);
+
+
+
 }
