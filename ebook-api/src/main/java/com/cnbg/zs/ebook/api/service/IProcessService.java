@@ -47,5 +47,10 @@ public interface IProcessService {
 	*/
 	ResultData updateEntity(Process entity);
 
-
+	/**
+	 * 单表List
+	 * @param entity
+	 * @return
+	 */
+	List<Process> selectList(Process entity);
 }
