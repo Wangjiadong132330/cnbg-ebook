@@ -10,6 +10,7 @@ import com.cnbg.zs.ebook.core.result.ResultData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class ProfileController extends BaseController {
      * @param userInfoVo 空
      * @return
      */
-    @RequestMapping("/getUserProfile")
+    @PostMapping("/getUserProfile")
     public ResultData getUserProfile(@RequestBody UserInfoVo userInfoVo){
         UserInfoDTO userInfoDTO = iUserInfoService.getUserInfoById(SessionUtils.getSessionUserId(userInfoVo.getSessionId()));
         return super.resultSuccess(userInfoDTO);
@@ -42,7 +43,7 @@ public class ProfileController extends BaseController {
      * @param userInfoVo 用户信息
      * @return
      */
-    @RequestMapping("/updateUserProfile")
+    @PostMapping("/updateUserProfile")
     public ResultData updateUserProfile(@RequestBody UserInfoVo userInfoVo){
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userInfoVo,userInfo);
@@ -56,7 +57,7 @@ public class ProfileController extends BaseController {
      * @param userInfoVo 用户信息
      * @return
      */
-    @RequestMapping("/updateUserPass")
+    @PostMapping("/updateUserPass")
     public ResultData updateUserPass(@RequestBody UserInfoVo userInfoVo){
         UserInfo userInfo = new UserInfo();
         userInfo.setPassword(new BCryptPasswordEncoder().encode(userInfoVo.getUserPass()));
