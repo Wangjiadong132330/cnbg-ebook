@@ -79,6 +79,8 @@ public class INodeServiceImpl implements INodeService {
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void deletePrimaryKey(Integer id) {
+
+		// TODO 删除之前有校验
 		nodeMapper.deleteById(id);
 	}
 
