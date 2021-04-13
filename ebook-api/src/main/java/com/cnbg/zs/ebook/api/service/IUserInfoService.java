@@ -6,7 +6,9 @@ import com.cnbg.zs.ebook.api.dto.ExcelUserInfoDTO;
 import com.cnbg.zs.ebook.api.dto.ImportResultDTO;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
+import com.cnbg.zs.ebook.api.vo.UserInfoVo;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -78,6 +80,13 @@ public interface IUserInfoService {
 	 */
 	void updateUserProfile(UserInfo userInfo);
 
-
+	/**
+	 * 导出用户信息
+	 *
+	 * @param response
+	 * @param record
+	 * @return
+	 */
+	void exportUser(HttpServletResponse response, UserInfoVo record);
 
 }

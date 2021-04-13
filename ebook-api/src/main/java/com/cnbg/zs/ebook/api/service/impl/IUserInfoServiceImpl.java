@@ -10,14 +10,13 @@ import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
 import com.cnbg.zs.ebook.api.entity.Department;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
-import com.cnbg.zs.ebook.api.mapper.CompanyMapper;
-import com.cnbg.zs.ebook.api.mapper.DepartmentMapper;
 import com.cnbg.zs.ebook.api.mapper.UserInfoMapper;
 import com.cnbg.zs.ebook.api.service.ICompanyService;
 import com.cnbg.zs.ebook.api.service.IDepartmentService;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
-import com.cnbg.zs.ebook.api.utils.SessionUtils;
+import com.cnbg.zs.ebook.api.vo.UserInfoVo;
 import com.cnbg.zs.ebook.common.constant.Constants;
+import com.cnbg.zs.ebook.common.excel.ExcelUtils;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -185,6 +185,33 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 	@Override
 	public void updateUserProfile(UserInfo userInfo) {
 		userInfoMapper.updateById(userInfo);
+	}
+
+	@Override
+	public void exportUser(HttpServletResponse response, UserInfoVo record) {
+
+		Map<String,Object> paramsMap = new HashMap<>();
+		paramsMap.put("companyId",StringToolUtils.isEmptyValue(record.getCompanyId()));
+		paramsMap.put("departmentId",StringToolUtils.isEmptyValue(record.getDepartmentId()));
+		paramsMap.put("userRealName",StringToolUtils.isEmptyValue(record.getUserRealName()));
+
+		List<UserInfoDTO> userInfoDtoList = userInfoMapper.selectEntityList(paramsMap);
+
+		List<ExcelUserInfoDTO> exportUserInfoDtoList = new ArrayList<>();
+		for (UserInfoDTO dto : userInfoDtoList) {
+
+			ExcelUserInfoDTO excelUserInfo = new ExcelUserInfoDTO();
+			excelUserInfo.setUserAccount(dto.getUsername());
+			excelUserInfo.setUserRealName(dto.getUserRealName());
+			excelUserInfo.setCompanyName(dto.getCompanyName());
+			excelUserInfo.setDepartmentName(dto.getDepartmentName());
+			excelUserInfo.setGender(dto.getGender());
+			excelUserInfo.setPhone(dto.getPhone());
+
+			exportUserInfoDtoList.add(excelUserInfo);
+		}
+
+		ExcelUtils.writeExcel(response, exportUserInfoDtoList, "exportUser", "sheet1", ExcelUserInfoDTO.class);
 	}
 
 }
