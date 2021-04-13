@@ -107,4 +107,13 @@ public class IProcessServiceImpl implements IProcessService {
 
 		return processList.size() > 0;
 	}
+
+	@Override
+	public List<Process> selectList(Process record) {
+		QueryWrapper<Process> wrapper = new QueryWrapper<>();
+		wrapper.select("id, process_name");
+		wrapper.like(!StringToolUtils.isEmptyObj(record.getProcessName()),"process_name",record.getProcessName());
+		wrapper.orderByAsc("id");
+		return processMapper.selectList(wrapper);
+	}
 }

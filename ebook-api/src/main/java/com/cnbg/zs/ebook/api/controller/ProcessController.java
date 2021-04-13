@@ -93,4 +93,17 @@ public class ProcessController extends BaseController {
 		return super.resultSuccess(iProcessService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
 
+	/**
+	 * 查询流程下拉框List
+	 *
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getListQuery")
+	public ResultData selectList(@RequestBody ProcessVo record){
+		Process entity = new Process();
+		BeanUtils.copyProperties(record,entity);
+		return super.resultSuccess(iProcessService.selectList(entity));
+	}
+
 }
