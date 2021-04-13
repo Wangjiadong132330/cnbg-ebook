@@ -181,7 +181,7 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 	public UserInfoDTO getUserInfoById(Integer userId) {
 		return userInfoMapper.getUserInfoById(userId);
 	}
-
+	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void updateUserProfile(UserInfo userInfo) {
 		userInfoMapper.updateById(userInfo);
