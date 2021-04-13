@@ -53,7 +53,7 @@ public class ProfileController extends BaseController {
     }
 
     /**
-     * 用户修改资料
+     * 修改密码
      * @param userInfoVo 用户信息
      * @return
      */
