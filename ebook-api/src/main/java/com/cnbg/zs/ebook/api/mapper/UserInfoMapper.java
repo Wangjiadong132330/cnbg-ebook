@@ -18,4 +18,6 @@ import java.util.Map;
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
     IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page, @Param(Constants.COLUMN_MAP) Map<String, Object> params);
+
+    UserInfoDTO getUserInfoById(Integer userId);
 }
