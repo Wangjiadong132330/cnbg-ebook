@@ -13,7 +13,6 @@ import com.cnbg.zs.ebook.core.result.RequestVo;
 import com.cnbg.zs.ebook.core.result.ResultData;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
-import org.apache.poi.sl.usermodel.Sheet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -113,6 +112,7 @@ public class UserInfoController extends BaseController {
 
 		return super.resultSuccess(iUserInfoService.importUser(userInfoList, SessionUtils.getSessionUserName(requestVo.getSessionId())));
 	}
+
 	/**
 	* 分页查询数据
 	* @param record
@@ -125,33 +125,16 @@ public class UserInfoController extends BaseController {
 		return super.resultSuccess(iUserInfoService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize()),entity));
 	}
 
+	/**
+	 * 导出用户列表
+	 * @param response
+	 * @param record
+	 * @return
+	 */
 	@GetMapping(value = "/exportUser")
-	public void exportUser(HttpServletResponse response) {
+	public void exportUser(HttpServletResponse response, UserInfoVo record) {
 
-		List<ExcelUserInfoDTO> userInfoDtoList = new ArrayList<>();
-		ExcelUserInfoDTO e;
-
-		for (int i = 0; i < 10; i++) {
-			e = new ExcelUserInfoDTO();
-			// 会员号
-			e.setUserAccount("userAccount" + i);
-			// 姓名
-			e.setUserRealName("userRealName" + i);
-			// 公司Id
-			e.setCompanyName("companyName" + i);
-			// 公司Id
-			e.setDepartmentName("departmentName" + i);
-			// 手机号
-			e.setPhone("Phone" + i);
-			// 性别
-			e.setGender("gender" + i);
-
-			userInfoDtoList.add(e);
-		}
-
-		ExcelUtils.writeExcel(response, userInfoDtoList, "exportUser", "用户列表", ExcelUserInfoDTO.class);
+		iUserInfoService.exportUser(response, record);
 	}
-
-
 
 }

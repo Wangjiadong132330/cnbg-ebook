@@ -8,6 +8,7 @@ import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,4 +21,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     IPage<UserInfoDTO> selectEntityList(Page<UserInfoDTO> page, @Param(Constants.COLUMN_MAP) Map<String, Object> params);
 
     UserInfoDTO getUserInfoById(Integer userId);
+
+    List<UserInfoDTO> selectEntityList(@Param(Constants.COLUMN_MAP) Map<String, Object> params);
 }
