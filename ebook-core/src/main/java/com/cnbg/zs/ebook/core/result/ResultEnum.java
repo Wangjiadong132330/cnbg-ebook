@@ -16,6 +16,10 @@ public enum ResultEnum {
 
 	MSG_CODE_ERROR_501(501, "节点名重复"),
 	MSG_CODE_ERROR_502(502, "流程名重复"),
+	MSG_CODE_ERROR_503(503, "公司简称重复"),
+	MSG_CODE_ERROR_504(503, "公司名称重复"),
+	MSG_CODE_ERROR_505(505, "部门简称重复"),
+	MSG_CODE_ERROR_506(506, "部门名称重复"),
 
 	HTTP_ERROR_403(403, "禁止访问 403 抱歉,页面无法访问"),
 	HTTP_SMS_CODE_ERROR_202(202, "验证码错误"),
