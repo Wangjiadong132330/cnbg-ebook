@@ -117,7 +117,7 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 		Department department = new Department();
 		List<Department> departmentList = iDepartmentService.selectEntityList(department);
 		Map<String, Integer> departmentMap =
-				departmentList.stream().collect(Collectors.toMap(Department::getDepartmentShortName, Department::getId));
+				departmentList.stream().collect(Collectors.toMap(k -> k.getCompanyId() + k.getDepartmentShortName() , Department::getId));
 
 		// 获得所有用户List
 		QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
@@ -144,8 +144,8 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 				info.setUserRealName(userInfo.getUserRealName());
 				// 公司Id
 				info.setCompanyId(companyMap.get(userInfo.getCompanyName()));
-				// 公司Id
-				info.setDepartmentId(departmentMap.get(userInfo.getDepartmentName()));
+				// 部门Id
+				info.setDepartmentId(departmentMap.get(info.getCompanyId() + userInfo.getDepartmentName()));
 				// 手机号
 				info.setPhone(userInfo.getPhone());
 				// 性别
