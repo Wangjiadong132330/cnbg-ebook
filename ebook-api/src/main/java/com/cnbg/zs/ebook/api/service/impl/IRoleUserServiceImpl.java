@@ -11,6 +11,8 @@ import com.cnbg.zs.ebook.api.mapper.RoleUserMapper;
 import com.cnbg.zs.ebook.api.service.IRoleUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -41,17 +43,17 @@ public class IRoleUserServiceImpl implements IRoleUserService {
 	public List<Permission> getPermissionForUser(Integer userId) {
 		return permissionMapper.getPermissionByUserId(userId);
 	}
-
+	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void insertEntity(RoleUser roleUser) {
 		roleUserMapper.insert(roleUser);
 	}
-
+	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void deletePrimaryKey(Integer id) {
 		roleUserMapper.deleteById(id);
 	}
-
+	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public void updateEntity(RoleUser roleUser) {
 		roleUserMapper.updateById(roleUser);
