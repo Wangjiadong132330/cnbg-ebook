@@ -134,7 +134,8 @@ public class UserInfoController extends BaseController {
 	@GetMapping(value = "/exportUser")
 	public void exportUser(HttpServletResponse response, UserInfoVo record) {
 
-		iUserInfoService.exportUser(response, record);
+		// 导出用户
+		iUserInfoService.exportUserList(response, record);
 	}
 
 }

@@ -188,7 +188,7 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 	}
 
 	@Override
-	public void exportUser(HttpServletResponse response, UserInfoVo record) {
+	public void exportUserList(HttpServletResponse response, UserInfoVo record) {
 
 		Map<String,Object> paramsMap = new HashMap<>();
 		paramsMap.put("companyId",StringToolUtils.isEmptyValue(record.getCompanyId()));
@@ -212,6 +212,7 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 		}
 
 		ExcelUtils.writeExcel(response, exportUserInfoDtoList, "exportUser", "sheet1", ExcelUserInfoDTO.class);
+
 	}
 
 }
