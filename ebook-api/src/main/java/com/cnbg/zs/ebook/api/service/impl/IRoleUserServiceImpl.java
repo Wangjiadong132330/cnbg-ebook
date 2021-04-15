@@ -9,12 +9,14 @@ import com.cnbg.zs.ebook.api.entity.RoleUser;
 import com.cnbg.zs.ebook.api.mapper.PermissionMapper;
 import com.cnbg.zs.ebook.api.mapper.RoleUserMapper;
 import com.cnbg.zs.ebook.api.service.IRoleUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * @author OFG
@@ -67,6 +69,14 @@ public class IRoleUserServiceImpl implements IRoleUserService {
 	@Override
 	public IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> objectPage) {
 		return roleUserMapper.selectEntityList(objectPage);
+	}
+
+	@Override
+	public String[] selectUserRole(Integer userId) {
+		List<String> urls = roleUserMapper.selectUserRole(userId);
+		Set<String> stringSet = new HashSet<>();
+		stringSet = urls.stream().collect(Collectors.toSet());
+		return stringSet.toArray(new String[stringSet.size()]);
 	}
 
 

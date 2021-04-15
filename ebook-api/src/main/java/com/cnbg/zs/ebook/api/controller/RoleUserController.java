@@ -9,6 +9,7 @@ import com.cnbg.zs.ebook.api.utils.SessionUtils;
 import com.cnbg.zs.ebook.api.vo.CompanyVo;
 import com.cnbg.zs.ebook.api.vo.RoleUserVo;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
+import com.cnbg.zs.ebook.api.vo.UserOauthVo;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.core.result.ResultData;
 
@@ -95,6 +96,21 @@ public class RoleUserController extends BaseController {
 
 
         return super.resultSuccess(iRoleUserService.selectEntityList(new Page<>(record.getPageNo(), record.getPageSize())));
+    }
+
+    /**
+     * 获取用户权限
+     * @return
+     */
+    @PostMapping("/getUserRole")
+    public ResultData getUserRole(@RequestBody RoleUserVo roleUserVo){
+        Integer userId = SessionUtils.getSessionUserId(roleUserVo.getSessionId());
+        String userName = SessionUtils.getSessionUserName(roleUserVo.getSessionId());
+        String[] roles =  iRoleUserService.selectUserRole(userId);
+        UserOauthVo userOauthVo = new UserOauthVo();
+        userOauthVo.setName(userName);
+        userOauthVo.setRoles(roles);
+       return super.resultSuccess(userOauthVo);
     }
 
 

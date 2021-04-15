@@ -55,4 +55,11 @@ public interface IRoleUserService {
 
 	IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> objectPage);
 
+	/**
+	 * 获取登陆者菜单权限ID
+	 * @param userId
+	 * @return
+	 */
+	String[] selectUserRole(Integer userId);
+
 }

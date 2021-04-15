@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.RoleUserDTO;
 import com.cnbg.zs.ebook.api.entity.RoleUser;
 
+import java.util.List;
+
 /**
  * @author Faye.Wang
  * @version 1.0
@@ -15,5 +17,7 @@ import com.cnbg.zs.ebook.api.entity.RoleUser;
 public interface RoleUserMapper extends BaseMapper<RoleUser> {
 
     IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> page);
+    
+    List<String> selectUserRole(Integer userId);
 
 }
