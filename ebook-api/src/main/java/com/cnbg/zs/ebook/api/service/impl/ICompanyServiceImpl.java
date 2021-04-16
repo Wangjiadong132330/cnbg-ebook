@@ -2,6 +2,7 @@ package com.cnbg.zs.ebook.api.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.CompanyDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
@@ -10,6 +11,8 @@ import com.cnbg.zs.ebook.api.mapper.CompanyMapper;
 import com.cnbg.zs.ebook.api.mapper.DepartmentMapper;
 import com.cnbg.zs.ebook.api.service.ICompanyService;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
+import com.cnbg.zs.ebook.core.result.ResultData;
+import com.cnbg.zs.ebook.core.result.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,8 +38,36 @@ public class ICompanyServiceImpl implements ICompanyService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void insertEntity(Company record) {
-		companyMapper.insert(record);
+	public ResultData insertEntity(Company record) {
+
+		ResultData resultData = new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
+
+		// 检查公司名称是否重复
+		boolean checkCompanyNameRepeat = checkCompanyShortNameRepeat(record);
+		if (checkCompanyNameRepeat) {
+
+			// 公司名称重复
+			resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_504.getCode(),ResultEnum.MSG_CODE_ERROR_504.getMessage());
+
+		} else {
+
+			// 检查公司简称是否重复
+			boolean checkCompanyShortNameRepeatFlag = checkCompanyNameRepeat(record);
+			if (checkCompanyShortNameRepeatFlag) {
+
+				// 部门简称重复
+				resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_503.getCode(),ResultEnum.MSG_CODE_ERROR_503.getMessage());
+
+			} else {
+
+				// 新增公司数据
+				companyMapper.insert(record);
+			}
+
+		}
+
+		return resultData;
+
 	}
 
 	@Override
@@ -87,5 +118,35 @@ public class ICompanyServiceImpl implements ICompanyService {
 		QueryWrapper<Company> wrapper = new QueryWrapper<>();
 		wrapper.like(!StringToolUtils.isEmptyObj(record.getCompanyName()),"company_name",record.getCompanyName());
 		return companyMapper.selectList(wrapper);
+	}
+
+	/**
+	 * 检查公司简称是否重复
+	 *
+	 * @param record
+	 * @return
+	 */
+	private boolean checkCompanyShortNameRepeat(Company record) {
+
+		List<Company> companyList = companyMapper.selectList(
+				Wrappers.<Company>lambdaQuery()
+						.eq(Company::getCompanyShortName, record.getCompanyShortName()));
+
+		return companyList.size() > 0;
+	}
+
+	/**
+	 * 检查公司名称是否重复
+	 *
+	 * @param record
+	 * @return
+	 */
+	private boolean checkCompanyNameRepeat(Company record) {
+
+		List<Company> companyList = companyMapper.selectList(
+				Wrappers.<Company>lambdaQuery()
+						.eq(Company::getCompanyName, record.getCompanyName()));
+
+		return companyList.size() > 0;
 	}
 }

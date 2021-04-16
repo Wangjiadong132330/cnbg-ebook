@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.DepartmentDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
 import com.cnbg.zs.ebook.api.entity.Department;
+import com.cnbg.zs.ebook.core.result.ResultData;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface IDepartmentService {
 	* 保存数据
 	* @param entity
 	*/
-	void insertEntity(Department entity);
+	ResultData insertEntity(Department entity);
 
 	/**
 	* 获取单条数据

@@ -87,7 +87,7 @@ public interface IUserInfoService {
 	 * @param record
 	 * @return
 	 */
-	void exportUser(HttpServletResponse response, UserInfoVo record);
+	void exportUserList(HttpServletResponse response, UserInfoVo record);
 
     List<UserInfo> getSysUserSelect();
 

@@ -51,4 +51,5 @@
                 AND t1.department_id = t3.id
                 and t1.id =#{userId}
     </select>
+
 </mapper>

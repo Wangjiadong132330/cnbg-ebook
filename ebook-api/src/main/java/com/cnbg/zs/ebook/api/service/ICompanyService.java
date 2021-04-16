@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.CompanyDTO;
 import com.cnbg.zs.ebook.api.entity.Company;
+import com.cnbg.zs.ebook.core.result.ResultData;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface ICompanyService {
 	* 保存数据
 	* @param entity
 	*/
-	void insertEntity(Company entity);
+	ResultData insertEntity(Company entity);
 
 	/**
 	* 获取单条数据
