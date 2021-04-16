@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @Description
  */
 @TableName(value = "t_user")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserInfo {
     /**
      * 字段：id ：

@@ -137,4 +137,11 @@ public class UserInfoController extends BaseController {
 		iUserInfoService.exportUser(response, record);
 	}
 
+	@GetMapping(value = "/getSysUserSelect")
+	public ResultData getSysUserSelect() {
+
+		return super.resultSuccess(iUserInfoService.getSysUserSelect());
+	}
+
+
 }

@@ -111,4 +111,17 @@ public class SysRoleController extends BaseController {
 		return super.resultSuccess(iSysRoleService.getNodeList());
 	}
 
+
+	/**
+	 * 获取节点树
+	 * @param 
+	 * @return
+	 */
+	@PostMapping("/getRoleList")
+	public ResultData getRoleList(){
+
+		return super.resultSuccess(iSysRoleService.getRoleList());
+	}
+
+
 }

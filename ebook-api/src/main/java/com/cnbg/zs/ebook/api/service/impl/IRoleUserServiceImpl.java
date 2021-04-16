@@ -62,7 +62,7 @@ public class IRoleUserServiceImpl implements IRoleUserService {
 	}
 
 	@Override
-	public RoleUser selectByPrimaryKey(Integer id) {
+	public RoleUserDTO selectByPrimaryKey(Integer id) {
 		return roleUserMapper.selectById(id);
 	}
 

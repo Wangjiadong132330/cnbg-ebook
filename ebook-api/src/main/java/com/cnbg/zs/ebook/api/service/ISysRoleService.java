@@ -55,4 +55,7 @@ public interface ISysRoleService {
 	List<Object> getMenuList();
 
 	List<Object> getNodeList();
+
+	List<SysRole> getRoleList();
+
 }

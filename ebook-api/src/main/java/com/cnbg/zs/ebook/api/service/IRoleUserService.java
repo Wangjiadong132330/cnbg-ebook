@@ -50,10 +50,11 @@ public interface IRoleUserService {
 	void updateEntity(RoleUser roleUser);
 
 
-	RoleUser selectByPrimaryKey(Integer id);
+	RoleUserDTO selectByPrimaryKey(Integer id);
 
 
 	IPage<RoleUserDTO> selectEntityList(Page<RoleUserDTO> objectPage);
+
 
 	/**
 	 * 获取登陆者菜单权限ID

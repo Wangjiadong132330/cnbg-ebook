@@ -20,4 +20,6 @@ public interface RoleUserMapper extends BaseMapper<RoleUser> {
     
     List<String> selectUserRole(Integer userId);
 
+    RoleUserDTO selectById(Integer rolRelId);
+
 }

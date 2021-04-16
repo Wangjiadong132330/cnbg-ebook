@@ -136,5 +136,12 @@ public class ISysRoleServiceImpl implements ISysRoleService {
 		return treeNodeUtil.treeMenu(list);
 	}
 
+	@Override
+	public List<SysRole> getRoleList() {
+		QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+		queryWrapper.select("id,role_name");
+		return sysRoleMapper.selectList(queryWrapper);
+	}
+
 
 }

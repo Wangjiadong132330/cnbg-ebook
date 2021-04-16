@@ -214,4 +214,11 @@ public class IUserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> 
 		ExcelUtils.writeExcel(response, exportUserInfoDtoList, "exportUser", "sheet1", ExcelUserInfoDTO.class);
 	}
 
+	@Override
+	public List<UserInfo> getSysUserSelect() {
+		QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+		queryWrapper.select("id,user_real_name");
+		return userInfoMapper.selectList(queryWrapper);
+	}
+
 }
