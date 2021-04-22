@@ -53,8 +53,7 @@ public class DepartmentController extends BaseController {
 	public ResultData updateDemo(@RequestBody DepartmentVo record){
 		Department entity = new Department();
 		BeanUtils.copyProperties(record,entity);
-		iDepartmentService.updateEntity(entity);
-		return super.resultSuccess();
+		return iDepartmentService.updateEntity(entity);
 	}
 	/**
 	* 查询数据

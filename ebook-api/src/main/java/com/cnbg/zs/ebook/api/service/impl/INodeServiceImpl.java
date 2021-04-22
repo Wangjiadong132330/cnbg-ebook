@@ -49,6 +49,7 @@ public class INodeServiceImpl implements INodeService {
 			resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_501.getCode(),ResultEnum.MSG_CODE_ERROR_501.getMessage());
 
 		} else {
+
 			nodeMapper.insert(record);
 		}
 
@@ -106,21 +107,21 @@ public class INodeServiceImpl implements INodeService {
 	@Override
 	public ResultData updateEntity(Node record) {
 
-		ResultData resultData = new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
-
 		Node updateNode = nodeMapper.selectById(record.getId());
 
-		if (!updateNode.getNodeName().equals(record.getNodeName())) {
+		// 改变节点名 或 改变流程id
+		if (!updateNode.getNodeName().equals(record.getNodeName())
+				|| updateNode.getProcessId().intValue() != record.getProcessId().intValue()) {
 			// 检查节点是否重复
 			boolean nodeNameRepeatFlag = checkNodeNameRepeat(record);
 			if (nodeNameRepeatFlag) {
 				// 节点名重复
-				resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_501.getCode(),ResultEnum.MSG_CODE_ERROR_501.getMessage());
+				return new ResultData<>(ResultEnum.MSG_CODE_ERROR_501.getCode(),ResultEnum.MSG_CODE_ERROR_501.getMessage());
 			}
 		}
 
 		nodeMapper.updateById(record);
 
-		return resultData;
+		return new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
 	}
 }

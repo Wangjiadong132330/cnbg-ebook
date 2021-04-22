@@ -48,7 +48,7 @@ public interface ICompanyService {
 	* 修改记录
 	* @param entity
 	*/
-	void updateEntity(Company entity);
+	ResultData updateEntity(Company entity);
 
 	/**
 	 * 查询公司下拉

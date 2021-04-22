@@ -47,7 +47,7 @@ public interface IDepartmentService {
 	* 修改记录
 	* @param entity
 	*/
-	void updateEntity(Department entity);
+	ResultData updateEntity(Department entity);
 
 	/**
 	 * 单表查询所有List

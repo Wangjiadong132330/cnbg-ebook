@@ -42,18 +42,12 @@ public class CompanyController extends BaseController {
 	@PostMapping("/insert")
 	public ResultData insertCompany(@RequestBody CompanyVo record){
 		Company entity = new Company();
-		if(iCompanyService.selectByName(record.getCompanyName())!=null){
-			return super.resultSuccess("企业名称已存在",null);
-		}else{
-			BeanUtils.copyProperties(record,entity);
-			entity.setCreateTime(new Date());
-			entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
-			iCompanyService.insertEntity(entity);
+		BeanUtils.copyProperties(record,entity);
+		entity.setCreateTime(new Date());
+		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+		iCompanyService.insertEntity(entity);
 
-			return super.resultSuccess();
-		}
-
-
+		return iCompanyService.insertEntity(entity);
 	}
 	/**
 	* 修改数据
@@ -66,8 +60,7 @@ public class CompanyController extends BaseController {
 		BeanUtils.copyProperties(record,entity);
 		entity.setCreateTime(new Date());
 		entity.setCreateUser(SessionUtils.getSessionUserName(record.getSessionId()));
-		iCompanyService.updateEntity(entity);
-		return super.resultSuccess();
+		return iCompanyService.updateEntity(entity);
 	}
 	/**
 	* 查询数据
