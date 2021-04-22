@@ -113,7 +113,8 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 	public IPage<DepartmentDTO> selectEntityList(Page<DepartmentDTO> page, Department record) {
 
 		Map<String,Object> cmMap = new HashMap<>();
-		cmMap.put("companyName",StringToolUtils.isEmptyValue(record.getDepartmentName()));
+		cmMap.put("departmentName",StringToolUtils.isEmptyValue(record.getDepartmentName()));
+		cmMap.put("companyId",StringToolUtils.isEmptyValue(record.getCompanyId()));
 		return departmentMapper.selectEntityList(page,cmMap);
 	}
 

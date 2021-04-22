@@ -15,8 +15,10 @@ WHERE
 	t1.company_id = t2.id
 
 	<if test="cm.departmentName !=null">
-        and  t1.department_name  like concat('%',#{cm.departmentName},'%')
+        and  t1.department_name  = #{cm.departmentName}
     </if>
-
+		<if test="cm.companyId !=null">
+			and  t1.company_id  = #{cm.companyId}
+		</if>
     </select>
 </mapper>
