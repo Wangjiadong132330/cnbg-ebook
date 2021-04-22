@@ -89,6 +89,8 @@ public class ICompanyServiceImpl implements ICompanyService {
 
 		Map<String,Object> cmMap = new HashMap<>();
 		cmMap.put("companyName",StringToolUtils.isEmptyValue(record.getCompanyName()));
+		cmMap.put("id",StringToolUtils.isEmptyValue(record.getId()));
+		cmMap.put("provincialId",StringToolUtils.isEmptyValue(record.getProvincialId()));
 		return companyMapper.selectEntityList(page,cmMap);
 	}
 

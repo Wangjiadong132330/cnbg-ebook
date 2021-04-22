@@ -39,7 +39,11 @@ public class JwtAuthenticationTokenFilter  extends OncePerRequestFilter {
         String sessionId = null;
         HeaderHttpServletRequestWrapper requestWrapper = new HeaderHttpServletRequestWrapper(request);
         if(StringUtils.isNotBlank(token)){
-                if(JWTUtils.verify(token)==null){
+            if(JWTUtils.verify(token)==null){
+                throw new AccessDeniedException("TOKEN已过期，请重新登录！");
+            }
+            // 判断当前token 是否为退出后的 黑名单
+            if("1".equals(JRedisUtils.getKeyValue(token))){
                 throw new AccessDeniedException("TOKEN已过期，请重新登录！");
             }
              sessionId =  JWTUtils.getTokenObjectValue(token,JWTUtils.SESSION_ID_KEY);
