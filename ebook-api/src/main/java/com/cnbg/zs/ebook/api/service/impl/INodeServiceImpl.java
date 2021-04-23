@@ -5,14 +5,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.NodeDTO;
-import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.Node;
 import com.cnbg.zs.ebook.api.entity.NodeRole;
+import com.cnbg.zs.ebook.api.entity.Process;
 import com.cnbg.zs.ebook.api.entity.RoleUser;
-import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.mapper.NodeMapper;
 import com.cnbg.zs.ebook.api.mapper.NodeRoleMapper;
+import com.cnbg.zs.ebook.api.mapper.ProcessMapper;
 import com.cnbg.zs.ebook.api.service.INodeService;
+import com.cnbg.zs.ebook.common.constant.Constants;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
 import com.cnbg.zs.ebook.core.result.ResultData;
 import com.cnbg.zs.ebook.core.result.ResultEnum;
@@ -39,6 +40,8 @@ public class INodeServiceImpl implements INodeService {
 	private NodeMapper nodeMapper;
 	@Autowired
 	private NodeRoleMapper nodeRoleMapper;
+	@Autowired
+	private ProcessMapper processMapper;
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
@@ -85,10 +88,23 @@ public class INodeServiceImpl implements INodeService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void deletePrimaryKey(Integer id) {
+	public ResultData deletePrimaryKey(Integer id) {
 
-		// TODO 删除之前有校验
-		nodeMapper.deleteById(id);
+		ResultData resultData = new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
+		// 删除节点之前有校验
+		QueryWrapper<Process> queryWrapper = new QueryWrapper<>();
+		queryWrapper.like("process_json", Constants.nodeUsedKey + id);
+		List<Process> processList = processMapper.selectList(queryWrapper);
+		// 节点正在被使用中
+		if (processList.size() > 0) {
+
+			// 节点正在被使用中
+			resultData = new ResultData<>(ResultEnum.MSG_CODE_ERROR_508.getCode(),ResultEnum.MSG_CODE_ERROR_508.getMessage());
+		} else {
+			nodeMapper.deleteById(id);
+		}
+
+		return resultData;
 	}
 
 //	@Override
@@ -138,4 +154,5 @@ public class INodeServiceImpl implements INodeService {
 		List<NodeRole> nodeRoles = nodeRoleMapper.selectList(queryWrapper);
 		return nodeRoles.contains(nodeId);
 	}
+
 }

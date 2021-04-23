@@ -34,7 +34,7 @@ public interface INodeService {
 	* @param id
 	* @return
 	*/
-	void deletePrimaryKey(Integer id);
+	ResultData deletePrimaryKey(Integer id);
 
 	/**
 	* 单表查询所有

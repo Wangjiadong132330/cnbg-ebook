@@ -86,8 +86,8 @@ public class NodeController extends BaseController {
 	*/
 	@PostMapping("/delete")
 	public ResultData deleteDemoById(@RequestBody NodeVo record){
-		iNodeService.deletePrimaryKey(record.getId());
-		return super.resultSuccess();
+
+		return iNodeService.deletePrimaryKey(record.getId());
 	}
 
 	/**

@@ -22,6 +22,7 @@ public enum ResultEnum {
 	MSG_CODE_ERROR_506(506, "部门名称重复"),
 
 	MSG_CODE_ERROR_507(507, "用户名以存在，请更换"),
+	MSG_CODE_ERROR_508(508, "节点正在被使用，无法删除"),
 
 	HTTP_ERROR_403(403, "禁止访问 403 抱歉,页面无法访问"),
 	HTTP_SMS_CODE_ERROR_202(202, "验证码错误"),

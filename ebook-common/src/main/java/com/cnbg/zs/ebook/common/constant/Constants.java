@@ -35,4 +35,6 @@ public class Constants {
 
     // 导入用户默认密码
     public static final String DEFAULT_PASSWORD = "123456";
+
+    public static final String nodeUsedKey = "\"firstLevelMenu\":";
 }
