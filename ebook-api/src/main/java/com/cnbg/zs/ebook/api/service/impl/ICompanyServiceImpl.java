@@ -96,8 +96,40 @@ public class ICompanyServiceImpl implements ICompanyService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void updateEntity(Company record) {
+	public ResultData updateEntity(Company record) {
+
+		Company updateCompany = companyMapper.selectById(record.getId());
+
+		// 修改公司名称
+		if (!updateCompany.getCompanyName().equals(record.getCompanyName())) {
+
+			// 检查公司名称是否重复
+			boolean checkCompanyNameRepeat = checkCompanyShortNameRepeat(record);
+			if (checkCompanyNameRepeat) {
+
+				// 公司名称重复
+				return new ResultData<>(ResultEnum.MSG_CODE_ERROR_504.getCode(),ResultEnum.MSG_CODE_ERROR_504.getMessage());
+
+			}
+		}
+
+		// 修改公司简称
+		if (!updateCompany.getCompanyShortName().equals(record.getCompanyShortName())) {
+
+			// 检查公司简称是否重复
+			boolean checkCompanyShortNameRepeatFlag = checkCompanyNameRepeat(record);
+			if (checkCompanyShortNameRepeatFlag) {
+
+				// 部门简称重复
+				return new ResultData<>(ResultEnum.MSG_CODE_ERROR_503.getCode(),ResultEnum.MSG_CODE_ERROR_503.getMessage());
+
+			}
+		}
+
+		// 修改公司数据
 		companyMapper.updateById(record);
+
+		return new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
 	}
 
 	@Override

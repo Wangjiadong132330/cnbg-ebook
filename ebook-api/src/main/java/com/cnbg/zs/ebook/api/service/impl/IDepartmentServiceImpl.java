@@ -120,8 +120,42 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
-	public void updateEntity(Department record) {
+	public ResultData updateEntity(Department record) {
+
+		Department updateDepartment = departmentMapper.selectById(record.getId());
+
+		// 修改部门名称 或者 改变公司
+		if (!updateDepartment.getDepartmentName().equals(record.getDepartmentName())
+				|| updateDepartment.getCompanyId().intValue() != record.getCompanyId().intValue()) {
+
+			// 检查部门名称是否重复
+			boolean checkDepartmentNameRepeat = checkDepartmentShortNameRepeat(record);
+			if (checkDepartmentNameRepeat) {
+
+				// 部门名称重复
+				return new ResultData<>(ResultEnum.MSG_CODE_ERROR_506.getCode(),ResultEnum.MSG_CODE_ERROR_506.getMessage());
+
+			}
+		}
+
+		// 修改部门简称 或者 改变公司
+		if (!updateDepartment.getDepartmentShortName().equals(record.getDepartmentShortName())
+				|| updateDepartment.getCompanyId().intValue() != record.getCompanyId().intValue()) {
+
+			// 检查部门简称是否重复
+			boolean departmentShortNameRepeatFlag = checkDepartmentNameRepeat(record);
+			if (departmentShortNameRepeatFlag) {
+
+				// 部门简称重复
+				return new ResultData<>(ResultEnum.MSG_CODE_ERROR_505.getCode(),ResultEnum.MSG_CODE_ERROR_505.getMessage());
+
+			}
+		}
+
+		// 新增部门数据
 		departmentMapper.updateById(record);
+
+		return new ResultData<>(ResultEnum.HTTP_SUCCESS.getCode(),ResultEnum.HTTP_SUCCESS.getMessage());
 	}
 
 	@Override

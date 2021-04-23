@@ -13,6 +13,7 @@ import com.cnbg.zs.ebook.core.result.RequestVo;
 import com.cnbg.zs.ebook.core.result.ResultData;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
+import com.cnbg.zs.ebook.core.result.ResultEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +54,9 @@ public class UserInfoController extends BaseController {
 	@PostMapping("/insert")
 	public ResultData insertUserInfo(@RequestBody UserInfoVo record){
 		if(iUserInfoService.loadUserInfoByName(record.getUserAccount())!=null){
-			return super.resultSuccess("用户名以存在，请更换",null);
+//			return super.resultSuccess("用户名以存在，请更换",null);
+			return new ResultData<>(ResultEnum.MSG_CODE_ERROR_507.getCode(),ResultEnum.MSG_CODE_ERROR_507.getMessage());
+
 		}else{
 			UserInfo entity = new UserInfo();
 			BeanUtils.copyProperties(record,entity);
