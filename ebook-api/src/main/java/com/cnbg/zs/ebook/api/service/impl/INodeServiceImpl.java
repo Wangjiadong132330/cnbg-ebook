@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.NodeDTO;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
 import com.cnbg.zs.ebook.api.entity.Node;
+import com.cnbg.zs.ebook.api.entity.NodeRole;
+import com.cnbg.zs.ebook.api.entity.RoleUser;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.mapper.NodeMapper;
+import com.cnbg.zs.ebook.api.mapper.NodeRoleMapper;
 import com.cnbg.zs.ebook.api.service.INodeService;
 import com.cnbg.zs.ebook.common.lang.StringToolUtils;
 import com.cnbg.zs.ebook.core.result.ResultData;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
 * @author Faye.Wang
@@ -33,6 +37,8 @@ public class INodeServiceImpl implements INodeService {
 
 	@Autowired
 	private NodeMapper nodeMapper;
+	@Autowired
+	private NodeRoleMapper nodeRoleMapper;
 
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
@@ -122,5 +128,13 @@ public class INodeServiceImpl implements INodeService {
 		nodeMapper.updateById(record);
 
 		return resultData;
+	}
+
+	@Override
+	public boolean checkRoleForNode(List<RoleUser> roleUsers,Integer nodeId) {
+		QueryWrapper<NodeRole> queryWrapper = new QueryWrapper<>();
+		queryWrapper.in("role_id",roleUsers.stream().map(RoleUser::getRoleId).collect(Collectors.toList()));
+		List<NodeRole> nodeRoles = nodeRoleMapper.selectList(queryWrapper);
+		return nodeRoles.contains(nodeId);
 	}
 }

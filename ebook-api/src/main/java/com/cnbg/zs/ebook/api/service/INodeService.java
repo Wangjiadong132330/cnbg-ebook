@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.NodeDTO;
 import com.cnbg.zs.ebook.api.entity.Node;
+import com.cnbg.zs.ebook.api.entity.RoleUser;
 import com.cnbg.zs.ebook.core.result.ResultData;
 
 import java.util.List;
@@ -48,5 +49,10 @@ public interface INodeService {
 	*/
 	ResultData updateEntity(Node entity);
 
-
+	/**
+	 * 检查当前用户是否有节点权限
+	 * @param roleUsers
+	 * @return
+	 */
+	boolean checkRoleForNode(List<RoleUser> roleUsers,Integer nodeId);
 }

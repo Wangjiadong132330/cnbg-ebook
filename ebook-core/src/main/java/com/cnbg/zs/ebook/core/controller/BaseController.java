@@ -29,6 +29,9 @@ public class BaseController<T> {
 	public ResultData resultFail(T data){
 		return  new ResultData<>(ResultEnum.HTTP_ERROR_500.getCode(),ResultEnum.HTTP_ERROR_500.getMessage(),data);
 	}
+	public ResultData resultFail(String msg,T data){
+		return  new ResultData<>(ResultEnum.HTTP_ERROR_500.getCode(),msg,data);
+	}
 
 	public ResultData resultFail(int code,String msg,T data){
 		return  new ResultData<>(code,msg,data);

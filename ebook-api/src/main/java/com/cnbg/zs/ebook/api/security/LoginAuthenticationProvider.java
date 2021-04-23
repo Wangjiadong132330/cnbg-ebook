@@ -6,6 +6,7 @@ import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.security.details.MyWebAuthenticationDetails;
 import com.cnbg.zs.ebook.api.service.IRoleUserService;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
+import com.cnbg.zs.ebook.common.lang.JsonUtils;
 import com.cnbg.zs.ebook.common.redis.JRedisUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -78,6 +79,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 		}
 	// 获取该用户拥有的权限
 		List<RoleUser> roleUsers = iRoleUserService.getRoleUserForUser(userInfo.getId());
+		JRedisUtils.setKeyValue("SESSION:ROLE:"+String.valueOf(userInfo.getId()), JsonUtils.toJsonString(roleUsers));
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 			for(RoleUser roleUser : roleUsers){
 			authorities.add(new SimpleGrantedAuthority("ROLE_"+roleUser.getRoleId()));

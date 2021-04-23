@@ -2,7 +2,10 @@ package com.cnbg.zs.ebook.api.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cnbg.zs.ebook.api.entity.RoleUser;
 import com.cnbg.zs.ebook.api.utils.SessionUtils;
+import com.cnbg.zs.ebook.common.lang.JsonUtils;
+import com.cnbg.zs.ebook.common.redis.JRedisUtils;
 import com.cnbg.zs.ebook.core.controller.BaseController;
 import com.cnbg.zs.ebook.api.entity.Node;
 import com.cnbg.zs.ebook.core.result.ResultData;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -66,7 +70,13 @@ public class NodeController extends BaseController {
 	*/
 	@PostMapping("/getId")
 	public ResultData getNodeById(@RequestBody NodeVo record){
-		return super.resultSuccess(iNodeService.selectByPrimaryKey(record.getId()));
+		Integer userId = SessionUtils.getSessionUserId(record.getSessionId());
+		List<RoleUser> roleUserList = JsonUtils.toJsonList(JRedisUtils.getKeyValue("SESSION:ROLE:"+userId),RoleUser.class);
+		if(iNodeService.checkRoleForNode(roleUserList,record.getId())){
+			return super.resultSuccess(iNodeService.selectByPrimaryKey(record.getId()));
+		}else{
+			return super.resultFail("权限不足，无法访问",null);
+		}
 	}
 
 	/**
