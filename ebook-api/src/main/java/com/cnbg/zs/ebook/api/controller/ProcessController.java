@@ -94,6 +94,18 @@ public class ProcessController extends BaseController {
 	}
 
 	/**
+	 * 分页查询流程图数据
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/getPageQuery4Chart")
+	public ResultData getPageQuery4Chart(@RequestBody ProcessVo record){
+		Process entity = new Process();
+		BeanUtils.copyProperties(record,entity);
+		return super.resultSuccess(iProcessService.selectEntityList4Chart(new Page<>(record.getPageNo(), record.getPageSize()),entity));
+	}
+
+	/**
 	 * 查询流程下拉框List
 	 *
 	 * @param record

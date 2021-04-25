@@ -42,6 +42,14 @@ public interface IProcessService {
 	IPage<Process> selectEntityList(Page<Process> page,Process entity);
 
 	/**
+	 * 流程图查询所有
+	 * @param page
+	 * @param entity
+	 * @return
+	 */
+	IPage<Process> selectEntityList4Chart(Page<Process> page, Process entity);
+
+	/**
 	* 修改记录
 	* @param entity
 	*/

@@ -71,6 +71,15 @@ public class IProcessServiceImpl implements IProcessService {
 		return processMapper.selectPage(page,wrapper);
 	}
 
+	@Override
+	public IPage<Process> selectEntityList4Chart(Page<Process> page,Process record) {
+		QueryWrapper<Process> wrapper = new QueryWrapper<>();
+		wrapper.isNotNull("process_chart");
+		wrapper.like(!StringToolUtils.isEmptyObj(record.getProcessName()),"process_name",record.getProcessName());
+		wrapper.orderByAsc("id");
+		return processMapper.selectPage(page,wrapper);
+	}
+
 	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
 	@Override
 	public ResultData updateEntity(Process record) {
