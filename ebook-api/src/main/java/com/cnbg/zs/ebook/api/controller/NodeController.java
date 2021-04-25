@@ -75,7 +75,7 @@ public class NodeController extends BaseController {
 		if(iNodeService.checkRoleForNode(roleUserList,record.getId())){
 			return super.resultSuccess(iNodeService.selectByPrimaryKey(record.getId()));
 		}else{
-			return super.resultFail("权限不足，无法访问",null);
+			return super.resultFail("节点权限不足，无法访问",null);
 		}
 	}
 

@@ -152,7 +152,7 @@ public class INodeServiceImpl implements INodeService {
 		QueryWrapper<NodeRole> queryWrapper = new QueryWrapper<>();
 		queryWrapper.in("role_id",roleUsers.stream().map(RoleUser::getRoleId).collect(Collectors.toList()));
 		List<NodeRole> nodeRoles = nodeRoleMapper.selectList(queryWrapper);
-		return nodeRoles.contains(nodeId);
+		return nodeRoles.stream().map(NodeRole::getNodeId).collect(Collectors.toList()).contains(nodeId);
 	}
 
 }
