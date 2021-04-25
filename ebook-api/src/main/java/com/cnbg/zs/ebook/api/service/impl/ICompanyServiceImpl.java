@@ -104,7 +104,7 @@ public class ICompanyServiceImpl implements ICompanyService {
 		if (!updateCompany.getCompanyName().equals(record.getCompanyName())) {
 
 			// 检查公司名称是否重复
-			boolean checkCompanyNameRepeat = checkCompanyShortNameRepeat(record);
+			boolean checkCompanyNameRepeat = checkCompanyNameRepeat(record);
 			if (checkCompanyNameRepeat) {
 
 				// 公司名称重复
@@ -117,7 +117,7 @@ public class ICompanyServiceImpl implements ICompanyService {
 		if (!updateCompany.getCompanyShortName().equals(record.getCompanyShortName())) {
 
 			// 检查公司简称是否重复
-			boolean checkCompanyShortNameRepeatFlag = checkCompanyNameRepeat(record);
+			boolean checkCompanyShortNameRepeatFlag = checkCompanyShortNameRepeat(record);
 			if (checkCompanyShortNameRepeatFlag) {
 
 				// 部门简称重复
