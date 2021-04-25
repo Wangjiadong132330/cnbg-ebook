@@ -129,7 +129,7 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 				|| updateDepartment.getCompanyId().intValue() != record.getCompanyId().intValue()) {
 
 			// 检查部门名称是否重复
-			boolean checkDepartmentNameRepeat = checkDepartmentShortNameRepeat(record);
+			boolean checkDepartmentNameRepeat = checkDepartmentNameRepeat(record);
 			if (checkDepartmentNameRepeat) {
 
 				// 部门名称重复
@@ -143,7 +143,7 @@ public class IDepartmentServiceImpl implements IDepartmentService {
 				|| updateDepartment.getCompanyId().intValue() != record.getCompanyId().intValue()) {
 
 			// 检查部门简称是否重复
-			boolean departmentShortNameRepeatFlag = checkDepartmentNameRepeat(record);
+			boolean departmentShortNameRepeatFlag = checkDepartmentShortNameRepeat(record);
 			if (departmentShortNameRepeatFlag) {
 
 				// 部门简称重复
