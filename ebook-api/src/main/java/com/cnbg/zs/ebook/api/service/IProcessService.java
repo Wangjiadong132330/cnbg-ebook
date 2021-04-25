@@ -61,4 +61,11 @@ public interface IProcessService {
 	 * @return
 	 */
 	List<Process> selectList(Process entity);
+
+	/**
+	 * 删除流程图数据
+	 * @param entity
+	 * @return
+	 */
+	void update4DeleteChart(Process entity);
 }

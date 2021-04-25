@@ -102,6 +102,13 @@ public class IProcessServiceImpl implements IProcessService {
 		return resultData;
 	}
 
+	@Transactional(readOnly = false,rollbackFor = Exception.class,propagation= Propagation.REQUIRED)
+	@Override
+	public void update4DeleteChart(Process record) {
+
+		processMapper.update4DeleteChart(record);
+	}
+
 	/**
 	 * 检查流程名是否重复
 	 *

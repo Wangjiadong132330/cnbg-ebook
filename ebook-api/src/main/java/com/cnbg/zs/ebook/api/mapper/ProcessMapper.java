@@ -14,4 +14,6 @@ import java.util.List;
 */
 public interface ProcessMapper extends BaseMapper<Process> {
     List<NodeTreeDTO> getNodeList();
+
+    int update4DeleteChart(Process process);
 }

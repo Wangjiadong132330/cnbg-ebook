@@ -118,4 +118,18 @@ public class ProcessController extends BaseController {
 		return super.resultSuccess(iProcessService.selectList(entity));
 	}
 
+	/**
+	 * 删除流程图数据
+	 * @param record
+	 * @return
+	 */
+	@PostMapping("/update4DeleteChart")
+	public ResultData update4DeleteChart(@RequestBody ProcessVo record){
+		Process entity = new Process();
+		BeanUtils.copyProperties(record,entity);
+		entity.setUpdateUser(SessionUtils.getSessionUserName(record.getSessionId()));
+		iProcessService.update4DeleteChart(entity);
+		return super.resultSuccess();
+	}
+
 }

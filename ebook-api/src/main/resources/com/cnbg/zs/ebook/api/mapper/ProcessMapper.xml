@@ -9,4 +9,13 @@ SELECT t2.id,t1.id as parent_id,t2.node_name as nodeName  FROM t_process t1 ,t_n
 
 
     </select>
+
+    <update id="update4DeleteChart" parameterType="com.cnbg.zs.ebook.api.entity.Process" >
+        update t_process
+        set process_chart = null,
+        process_json = null,
+        update_user = #{updateUser},
+        update_time = now()
+        where id = #{id}
+    </update>
 </mapper>
