@@ -50,7 +50,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 		String serverCode =  JRedisUtils.getKeyValue(details.getKey());
 		// TODO 临时程序开发
 //		String serverCode =  "1234";
-		if(!StringUtils.equals(serverCode,details.getCode())){
+		if(!StringUtils.equals(serverCode,details.getCode().toLowerCase())){
 		throw new DisabledException("验证码输入错误");
 		}
 

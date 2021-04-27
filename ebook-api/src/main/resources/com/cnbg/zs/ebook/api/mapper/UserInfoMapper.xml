@@ -41,7 +41,9 @@
                 t1.create_time,
                 t3.department_name,
                 t1.gender,
-                t1.phone
+                t1.phone,
+                t2.id as companyId,
+                t3.id as departmentId
             FROM
                 t_user t1,
                 t_company t2,

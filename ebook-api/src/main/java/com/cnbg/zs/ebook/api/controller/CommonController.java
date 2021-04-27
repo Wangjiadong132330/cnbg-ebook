@@ -27,7 +27,7 @@ public class CommonController extends BaseController {
     public ResultData captcha(HttpServletRequest request, HttpServletResponse response){
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
         // 验证码
-        String verCode = specCaptcha.text();
+        String verCode = specCaptcha.text().toLowerCase();
         String verCodeKey = StringToolUtils.getGeneratorUUID();
         // 存入redis并设置过期时间为30分钟
         JRedisUtils.setKeyValue(verCodeKey,verCode,1800 );
