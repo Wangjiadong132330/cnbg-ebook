@@ -72,10 +72,14 @@ public class NodeController extends BaseController {
 	public ResultData getNodeById(@RequestBody NodeVo record){
 		Integer userId = SessionUtils.getSessionUserId(record.getSessionId());
 		List<RoleUser> roleUserList = JsonUtils.toJsonList(JRedisUtils.getKeyValue("SESSION:ROLE:"+userId),RoleUser.class);
-		if(iNodeService.checkRoleForNode(roleUserList,record.getId())){
+		if("admin".equals(JRedisUtils.getKeyValue("SESSION:ROLE:TYPE"+userId))){
 			return super.resultSuccess(iNodeService.selectByPrimaryKey(record.getId()));
 		}else{
-			return super.resultFail("节点权限不足，无法访问",null);
+			if(iNodeService.checkRoleForNode(roleUserList,record.getId())){
+				return super.resultSuccess(iNodeService.selectByPrimaryKey(record.getId()));
+			}else{
+				return super.resultFail("节点权限不足，无法访问",null);
+			}
 		}
 	}
 

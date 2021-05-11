@@ -58,4 +58,11 @@ public interface ISysRoleService {
 
 	List<SysRole> getRoleList();
 
+	/**
+	 * 判断是否为超级管理员
+	 * @param ids
+	 * @return
+	 */
+	boolean hasAdminFlag(List<Integer> ids);
+
 }

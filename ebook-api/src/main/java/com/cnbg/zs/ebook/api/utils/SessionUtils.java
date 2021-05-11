@@ -31,4 +31,6 @@ public class SessionUtils {
         UserInfo myUserDetails =  JsonUtils.toJsonBean(JRedisUtils.getKeyValue(Constants.USER_OAUTH_SESSION_ID+sessionId),UserInfo.class);
         return myUserDetails.getId();
     }
+
+
 }

@@ -36,7 +36,18 @@ public class SysRole implements Serializable{
 	* 字段：updateTime ：修改时间
 	*/
 	private Date updateTime;
+	/**
+	 * 系统权限类型:0 系统管理，1：自定义
+	 */
+	private Integer roleType;
 
+	public Integer getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(Integer roleType) {
+		this.roleType = roleType;
+	}
 
 	public Integer getId() {
 		return id;

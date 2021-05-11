@@ -5,12 +5,14 @@ import com.cnbg.zs.ebook.api.entity.RoleUser;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.security.details.MyWebAuthenticationDetails;
 import com.cnbg.zs.ebook.api.service.IRoleUserService;
+import com.cnbg.zs.ebook.api.service.ISysRoleService;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
 import com.cnbg.zs.ebook.common.lang.JsonUtils;
 import com.cnbg.zs.ebook.common.redis.JRedisUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
 * @author Faye.Wang
@@ -37,8 +40,12 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	private IRoleUserService iRoleUserService;
 	@Autowired
+	private ISysRoleService iSysRoleService;
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+
+	private static int loginExpireTime;
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 //        String userName = authentication.getName();
@@ -80,6 +87,14 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 	// 获取该用户拥有的权限
 		List<RoleUser> roleUsers = iRoleUserService.getRoleUserForUser(userInfo.getId());
 		JRedisUtils.setKeyValue("SESSION:ROLE:"+String.valueOf(userInfo.getId()), JsonUtils.toJsonString(roleUsers));
+
+		List<Integer> ids = roleUsers.stream().map(RoleUser::getRoleId).collect(Collectors.toList());
+
+		// 判断当前用户是否是超管及管理员
+		boolean flag = iSysRoleService.hasAdminFlag(ids);
+		if(!flag){
+			JRedisUtils.setKeyValue("SESSION:ROLE:TYPE"+String.valueOf(userInfo.getId()), "admin",loginExpireTime);
+		}
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 			for(RoleUser roleUser : roleUsers){
 			authorities.add(new SimpleGrantedAuthority("ROLE_"+roleUser.getRoleId()));
@@ -91,5 +106,15 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
+	}
+
+
+
+	public  int getLoginExpireTime() {
+		return loginExpireTime;
+	}
+	@Value("${user.login.redis.time}")
+	public  void setLoginExpireTime(int loginExpireTime) {
+		this.loginExpireTime = loginExpireTime;
 	}
 }

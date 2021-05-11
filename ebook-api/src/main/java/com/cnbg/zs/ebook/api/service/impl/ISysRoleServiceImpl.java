@@ -143,5 +143,14 @@ public class ISysRoleServiceImpl implements ISysRoleService {
 		return sysRoleMapper.selectList(queryWrapper);
 	}
 
+	@Override
+	public boolean hasAdminFlag(List<Integer> ids) {
+		QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+		queryWrapper.in("id",ids);
+		List<SysRole>  list = sysRoleMapper.selectList(queryWrapper);
+		List<SysRole>  roleList = list.stream().filter(item->item.getRoleType()==0).collect(Collectors.toList());
+		return roleList.isEmpty();
+	}
+
 
 }
