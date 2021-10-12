@@ -43,6 +43,11 @@ public class Node implements Serializable{
 	private String keyWord;
 
 	/**
+	 * 字段：keyWord ：使用的模板id
+	 */
+	private String templateId;
+
+	/**
 	* 字段：createTime ：创建时间
 	*/
 	private Date createTime;
@@ -127,4 +132,11 @@ public class Node implements Serializable{
 		this.updateUser = updateUser;
 	}
 
+	public String getTemplateId() {
+		return templateId;
+	}
+
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
+	}
 }

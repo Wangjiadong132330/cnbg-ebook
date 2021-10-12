@@ -36,6 +36,12 @@ public class NodeVo extends RequestVo {
 	*/
 
 	private String keyWord;
+
+	/**
+	 * 字段：keyWord ：使用的模板id
+	 */
+
+	private String templateId;
 	/**
 	* 字段：createTime ：创建时间
 	*/
@@ -119,5 +125,13 @@ public class NodeVo extends RequestVo {
 
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
+	}
+
+	public String getTemplateId() {
+		return templateId;
+	}
+
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
 	}
 }
