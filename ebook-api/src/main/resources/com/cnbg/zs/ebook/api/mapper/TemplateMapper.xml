@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnbg.zs.ebook.api.mapper.TemplateImgMapper">
+
+    <select id="selectAllTemplateInfo" resultType="com.cnbg.zs.ebook.api.dto.TemplateFileDTO">
+        SELECT
+            id,
+            file_name as fileName,
+            file_url as fileUrl
+        FROM
+            template_files
+    </select>
+</mapper>
