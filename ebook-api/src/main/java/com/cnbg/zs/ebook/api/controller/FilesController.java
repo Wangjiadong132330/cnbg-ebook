@@ -3,6 +3,7 @@ package com.cnbg.zs.ebook.api.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cnbg.zs.ebook.api.dto.ExcelUserInfoDTO;
 import com.cnbg.zs.ebook.api.dto.TemplateFileDTO;
+import com.cnbg.zs.ebook.api.entity.Template;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.service.ITemplateService;
 import com.cnbg.zs.ebook.api.service.IUserInfoService;
@@ -50,25 +51,34 @@ public class FilesController extends BaseController {
 	* @return
 	*/
 	@PostMapping("/uploadImg")
-	public String uploadTemplateImg(HttpServletRequest request) throws IOException {
+	public ResultData uploadTemplateImg(@RequestBody UserInfoVo userInfoVo,HttpServletRequest request) throws IOException {
 		//空文件流处理
-//		MultipartFile file = null;
-//		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-//		if (isMultipart) {
-//			MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request,
-//					MultipartHttpServletRequest.class);
-//			file = multipartRequest.getFile("file");
-//		}
-		return "AAA";
+		MultipartFile file = null;
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		if (isMultipart) {
+			MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request,
+					MultipartHttpServletRequest.class);
+			file = multipartRequest.getFile("file");
+		}
+		//获得登录用户的主键id
+		Integer uploaderId = SessionUtils.getSessionUserId(userInfoVo.getSessionId());
+		int flag = iTemplateService.uploadFile(uploaderId,file);
+		if(flag == 1){
+			return super.resultSuccess();
+		}else if(flag == 2){
+			return super.resultFail("图片格式错误");
+		}else {
+			return super.resultFail("上传失败");
+		}
 	}
 
 	/**
-	 * 返回所有模板图url
+	 * 返回所有模板图信息
 	 * @return
 	 */
 	@PostMapping("/getAllTemplateUrl")
 	public ResultData getAllTemplateUrl(){
-		List<TemplateFileDTO> templateList = iTemplateService.selectAllTemplateInfo();
+		List<Template> templateList = iTemplateService.selectAllTemplateInfo();
 		return super.resultSuccess(templateList);
 	}
 }

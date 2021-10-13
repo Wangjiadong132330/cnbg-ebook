@@ -45,7 +45,7 @@ public class Node implements Serializable{
 	/**
 	 * 字段：keyWord ：使用的模板id
 	 */
-	private String templateId;
+	private String templateUrl;
 
 	/**
 	* 字段：createTime ：创建时间
@@ -132,11 +132,11 @@ public class Node implements Serializable{
 		this.updateUser = updateUser;
 	}
 
-	public String getTemplateId() {
-		return templateId;
+	public String getTemplateUrl() {
+		return templateUrl;
 	}
 
-	public void setTemplateId(String templateId) {
-		this.templateId = templateId;
+	public void setTemplateUrl(String templateUrl) {
+		this.templateUrl = templateUrl;
 	}
 }

@@ -6,6 +6,7 @@ import com.cnbg.zs.ebook.api.dto.ExcelUserInfoDTO;
 import com.cnbg.zs.ebook.api.dto.ImportResultDTO;
 import com.cnbg.zs.ebook.api.dto.TemplateFileDTO;
 import com.cnbg.zs.ebook.api.dto.UserInfoDTO;
+import com.cnbg.zs.ebook.api.entity.Template;
 import com.cnbg.zs.ebook.api.entity.UserInfo;
 import com.cnbg.zs.ebook.api.vo.UserInfoVo;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,11 +25,11 @@ public interface ITemplateService {
 	 * 上传图片
 	 * @return
 	 */
-	public int uploadFile(MultipartFile file);
+	public int uploadFile(Integer uploaderId,MultipartFile file);
 
 	/**
 	* 查询所有模板信息
 	* @return
 	*/
-	public List<TemplateFileDTO> selectAllTemplateInfo();
+	public List<Template> selectAllTemplateInfo();
 }
