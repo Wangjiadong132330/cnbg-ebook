@@ -72,7 +72,7 @@ public class ITemplateImpl implements ITemplateService {
 				//将图片模板文件信息存储到template_files表
 				Template template = new Template();
 				template.setFileName(fileName);
-				template.setFileUrl(fileStorePath + "\\" + destFileName);
+				template.setFileUrl(fileStorePath + "/" + destFileName);
 				//设置上传用户的id
 				template.setCreateUser(uploaderId.toString());
 				flag = templateImgMapper.insert(template);
@@ -93,6 +93,9 @@ public class ITemplateImpl implements ITemplateService {
 	public List<Template> selectAllTemplateInfo() {
 		QueryWrapper<Template> queryWrapper = new QueryWrapper<>();
 		List<Template> templateList = templateImgMapper.selectList(queryWrapper);
+		for(Template template : templateList){
+			template.setFileUrl("82.156.225.241:8080" + template.getFileUrl());
+		}
 		//结果倒序
 		Collections.reverse(templateList);
 		return templateList;
