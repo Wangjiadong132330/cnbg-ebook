@@ -1,10 +1,8 @@
 package com.cnbg.zs.ebook.api.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cnbg.zs.ebook.api.entity.SysRole;
 import com.cnbg.zs.ebook.api.entity.Template;
 import org.apache.commons.lang3.StringUtils;
-import com.cnbg.zs.ebook.api.dto.TemplateFileDTO;
 import com.cnbg.zs.ebook.api.mapper.TemplateImgMapper;
 import com.cnbg.zs.ebook.api.service.ITemplateService;
 import com.cnbg.zs.ebook.common.file.EnviromentUtils;
@@ -13,12 +11,14 @@ import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -37,6 +37,12 @@ public class ITemplateImpl implements ITemplateService {
 	public static final String FILE_STORE_PATH = "file.store.path";
 	private static final Logger log = LoggerFactory.getLogger(ITemplateImpl.class);
 	private static final List<String> FILETYPELIST = new ArrayList<>();
+
+	@Value("${file.store.path}")
+	private String fileStorePath;
+
+	@Value("${file.mapping.name}")
+	private String fileMappingName;
 
 	static {
 		FILETYPELIST.add("image/jpg");
@@ -66,7 +72,7 @@ public class ITemplateImpl implements ITemplateService {
 				//将图片模板文件信息存储到template_files表
 				Template template = new Template();
 				template.setFileName(fileName);
-				template.setFileUrl(destFileName);
+				template.setFileUrl(fileStorePath + "\\" + destFileName);
 				//设置上传用户的id
 				template.setCreateUser(uploaderId.toString());
 				flag = templateImgMapper.insert(template);
@@ -87,6 +93,8 @@ public class ITemplateImpl implements ITemplateService {
 	public List<Template> selectAllTemplateInfo() {
 		QueryWrapper<Template> queryWrapper = new QueryWrapper<>();
 		List<Template> templateList = templateImgMapper.selectList(queryWrapper);
+		//结果倒序
+		Collections.reverse(templateList);
 		return templateList;
 	}
 
