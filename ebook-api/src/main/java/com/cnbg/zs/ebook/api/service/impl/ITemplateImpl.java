@@ -38,8 +38,8 @@ public class ITemplateImpl implements ITemplateService {
 	private static final Logger log = LoggerFactory.getLogger(ITemplateImpl.class);
 	private static final List<String> FILETYPELIST = new ArrayList<>();
 
-	@Value("${file.store.path}")
-	private String fileStorePath;
+	public static final String FILESTOREPATH = "bookupload/";
+
 
 	@Value("${file.mapping.name}")
 	private String fileMappingName;
@@ -72,7 +72,7 @@ public class ITemplateImpl implements ITemplateService {
 				//将图片模板文件信息存储到template_files表
 				Template template = new Template();
 				template.setFileName(fileName);
-				template.setFileUrl(fileStorePath + "/" + destFileName);
+				template.setFileUrl(FILESTOREPATH + destFileName);
 				//设置上传用户的id
 				template.setCreateUser(uploaderId.toString());
 				flag = templateImgMapper.insert(template);
@@ -94,7 +94,7 @@ public class ITemplateImpl implements ITemplateService {
 		QueryWrapper<Template> queryWrapper = new QueryWrapper<>();
 		List<Template> templateList = templateImgMapper.selectList(queryWrapper);
 		for(Template template : templateList){
-			template.setFileUrl("82.156.225.241" + template.getFileUrl());
+			template.setFileUrl(template.getFileUrl());
 		}
 		//结果倒序
 		Collections.reverse(templateList);
