@@ -94,7 +94,7 @@ public class ITemplateImpl implements ITemplateService {
 		QueryWrapper<Template> queryWrapper = new QueryWrapper<>();
 		List<Template> templateList = templateImgMapper.selectList(queryWrapper);
 		for(Template template : templateList){
-			template.setFileUrl("82.156.225.241:8080" + template.getFileUrl());
+			template.setFileUrl("82.156.225.241" + template.getFileUrl());
 		}
 		//结果倒序
 		Collections.reverse(templateList);
