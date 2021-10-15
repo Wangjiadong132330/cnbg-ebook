@@ -23,11 +23,11 @@ import java.util.List;
 
 
 /**
-* @author Faye.Wang
-* @version 1.0
-* @date 2021/10/12 13:19
-* @Description
-*/
+ * @author Faye.Wang
+ * @version 1.0
+ * @date 2021/10/12 13:19
+ * @Description
+ */
 @Service
 public class ITemplateImpl implements ITemplateService {
 
@@ -37,8 +37,7 @@ public class ITemplateImpl implements ITemplateService {
 	public static final String FILE_STORE_PATH = "file.store.path";
 	private static final Logger log = LoggerFactory.getLogger(ITemplateImpl.class);
 	private static final List<String> FILETYPELIST = new ArrayList<>();
-
-	public static final String FILESTOREPATH = "bookupload/";
+	public static final String FILESTOREPATH = "http://82.156.225.241/download/";
 
 
 	@Value("${file.mapping.name}")
@@ -72,7 +71,7 @@ public class ITemplateImpl implements ITemplateService {
 				//将图片模板文件信息存储到template_files表
 				Template template = new Template();
 				template.setFileName(fileName);
-				template.setFileUrl(FILESTOREPATH + destFileName);
+				template.setFileUrl(destFileName);
 				//设置上传用户的id
 				template.setCreateUser(uploaderId.toString());
 				flag = templateImgMapper.insert(template);
@@ -94,7 +93,7 @@ public class ITemplateImpl implements ITemplateService {
 		QueryWrapper<Template> queryWrapper = new QueryWrapper<>();
 		List<Template> templateList = templateImgMapper.selectList(queryWrapper);
 		for(Template template : templateList){
-			template.setFileUrl(template.getFileUrl());
+			template.setFileUrl(FILESTOREPATH + template.getFileUrl());
 		}
 		//结果倒序
 		Collections.reverse(templateList);
